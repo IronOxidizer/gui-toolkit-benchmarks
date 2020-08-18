@@ -9,6 +9,7 @@ Heavily inspired by the following projects:
 - https://github.com/krausest/js-framework-benchmark
 - https://tolszak-dev.blogspot.com/2013/02/simple-qml-vs-efl-comparison.html
 - https://www.grapecity.com/blogs/flexgrid-performance-compare-desktop-platforms
+- https://digitalcommons.wpi.edu/cgi/viewcontent.cgi?article=2796&context=mqp-all
 
 All aspects of performance will be measured. This includes (but is not limited to):
 
