@@ -19,7 +19,6 @@ All aspects of performance will be measured. This includes (but is not limited t
 - Input latency/reponsiveness
 - CPU usage
 - GPU usage
-- Battery usage
 - Disk/cache usage
 - Resource scalability (multiple app instances, large grids)
 
