@@ -12,9 +12,8 @@ Heavily inspired by the following projects:
 
 All aspects of performance will be measured. This includes (but is not limited to):
 
-- Compile time
-- Compile size
-- Start time
+- Executable size
+- Startup time
 - Memory usage
 - Rendering speed
 - Input latency/reponsiveness
@@ -24,4 +23,4 @@ All aspects of performance will be measured. This includes (but is not limited t
 - Disk/cache usage
 - Resource scalability (multiple app instances, large grids)
 
-Metrics will have different variants to cover all important cases such as cold and warm results (first run and after some caching/JIT), standalone and shared resource usage (single binary and libs/vm/interpreter), and multiple platforms and architectures.
+Metrics will have different variants to cover all important cases such as cold and warm results (first run and after some caching/JIT), standalone and shared resource usage (executable and libs/vm/interpreter), and multiple platforms and architectures.
