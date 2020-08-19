@@ -3,7 +3,7 @@
 # Build instructions
 
 ```
-qmake -o build/Makefile
+qmake -o build/
 cd build
 make -j $(nproc)
 ```
