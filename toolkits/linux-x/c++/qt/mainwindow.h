@@ -17,5 +17,11 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+    bool first_paint_occured = false;
+
+
+    bool event(QEvent *event) override;
+
 };
 #endif // MAINWINDOW_H

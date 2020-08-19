@@ -1,5 +1,8 @@
-#include "mainwindow.h"
+#include <thread>
+#include <chrono>
+#include <iostream>
 
+#include "mainwindow.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
