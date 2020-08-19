@@ -4,6 +4,5 @@
 
 ```
 qmake -o build/
-cd build
-make -j $(nproc)
+make -C build -j $(nproc)
 ```
