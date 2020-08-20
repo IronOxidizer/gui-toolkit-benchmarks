@@ -24,3 +24,21 @@ All aspects of performance will be measured. This includes (but is not limited t
 - Resource scalability (multiple app instances, large grids)
 
 Metrics will have different variants to cover all important cases such as cold and warm results (first run and after some caching/JIT), standalone and shared resource usage (executable and libs/vm/interpreter), and multiple platforms and architectures.
+
+## Testing methodology
+
+### Executable size
+
+The size of the executable with the following variants:
+
+- **base**: The single executable by itself
+- **total**: The executable along with its runtime dependencies (not including base platform, OS, window manager, i.e things that were already installed in the base image)
+- **stripped total**: Same as total but with the executable and runtime dependencies stripped of extraneous symbols
+
+### Startup time
+
+The time between the application start to the first complete paint **and** input handling is available, this is sent to the benchmarker by printing the epoch time to `stderr` when startup is complete. This has the following variants:
+
+- **cold**: The startup time immediately after first download or compile (no caching, first JIT not yet performed)
+- **warm**: The startup time after opening and closing the application 8 times
+
