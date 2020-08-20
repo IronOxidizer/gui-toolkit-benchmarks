@@ -37,7 +37,7 @@ The size of the executable with the following variants:
 
 ### Startup time
 
-The time between the application start to the first complete paint **and** input handling is available, this is sent to the benchmarker by printing the epoch time to `stderr` when startup is complete. This has the following variants:
+The time between the application start to the first complete paint **and** input handling is available, this is sent to the benchmarker by printing the epoch time in the most precise method to `stderr` when startup is complete. This has the following variants:
 
 - **cold**: The startup time immediately after first download or compile (no caching, first JIT not yet performed)
 - **warm**: The startup time after opening and closing the application 8 times
