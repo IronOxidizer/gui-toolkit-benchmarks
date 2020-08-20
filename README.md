@@ -42,3 +42,8 @@ The time between the application start to the first complete paint **and** input
 - **cold**: The startup time immediately after first download or compile (no caching, first JIT not yet performed)
 - **warm**: The startup time after opening and closing the application 8 times
 
+## Test Platforms
+
+### Linux X
+
+This will use the latest Manjaro Openbox Minimal ISO as the base image since it's the best representation of a modern install with up to date packages and minimal resource usage. Openbox is a simple, light, and widely used window manager for X that does not automatically tile windows (which would cause a repaint for some toolkits) which makes it the perfect candidate for the window manager.
