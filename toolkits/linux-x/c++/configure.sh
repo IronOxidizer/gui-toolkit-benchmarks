@@ -1,3 +1,3 @@
 #!/usr/bin/env sh
 
-sudo apt-get install make g++
+sudo apt-get install -y make g++
