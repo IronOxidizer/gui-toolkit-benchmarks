@@ -9,7 +9,7 @@ PATH="$PATH:$HOME/.cargo/bin"
 start_dir=$PWD
 for i in *
 do
-	if [ $i != README.md -a $i != configure.sh -a -f $start_dir/$i ]
+	if [ $i != README.md -a $i != configure.sh -a -f $start_dir/$i/configure.sh ]
 	then
 		cd $start_dir/$i
 		./configure.sh
