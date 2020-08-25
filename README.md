@@ -46,4 +46,4 @@ The time between the application start to the first complete paint **and** input
 
 ### Linux X
 
-This will use the latest [Manjaro Openbox Minimal ISO](https://manjaro.org/downloads/community/openbox/) as the base image since it's the best representation of a modern install with up to date packages and minimal resource usage. Openbox is a simple, light, and widely used window manager for X that does not automatically tile windows (which would cause a repaint for some toolkits) or include a toolbar/panel which makes it the perfect window manager for the X test platform.
+This will use the latest [Debian Sid NetInst](https://www.debian.org/CD/netinst/) as the base image since it's the best representation of a modern install with up-to-date packages that are properly segregated and minimal resource usage. Openbox is a simple, light, and widely used window manager for X that does not automatically tile windows (which would cause a repaint for some toolkits) or include a toolbar/panel which makes it the perfect window manager for the X test platform.
