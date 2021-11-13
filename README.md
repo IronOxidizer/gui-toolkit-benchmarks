@@ -10,6 +10,7 @@ Heavily inspired by the following projects:
 - https://tolszak-dev.blogspot.com/2013/02/simple-qml-vs-efl-comparison.html
 - https://www.grapecity.com/blogs/flexgrid-performance-compare-desktop-platforms
 - https://digitalcommons.wpi.edu/cgi/viewcontent.cgi?article=2796&context=mqp-all
+- https://eugenkiss.github.io/7guis/more
 
 All aspects of performance will be measured. This includes (but is not limited to):
 
