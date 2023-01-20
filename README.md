@@ -43,6 +43,13 @@ The time between the application start to the first complete paint **and** input
 - **cold**: The startup time immediately after first download or compile (no caching, first JIT not yet performed)
 - **warm**: The startup time after opening and closing the application 8 times
 
+### Rendering speed
+
+This can be tested in two ways.
+
+- How quickly an animation can be rendered, assuming all GUI toolkits display the same frames
+- The min/avg/max framerate given an animation function and a fixed time
+
 ## Test Platforms
 
 ### Linux X
