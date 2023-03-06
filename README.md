@@ -11,6 +11,8 @@ Heavily inspired by the following projects:
 - https://www.grapecity.com/blogs/flexgrid-performance-compare-desktop-platforms
 - https://digitalcommons.wpi.edu/cgi/viewcontent.cgi?article=2796&context=mqp-all
 - https://eugenkiss.github.io/7guis/more
+- https://szibele.com/memory-footprint-of-gui-toolkits/
+- https://web.wpi.edu/Pubs/E-project/Available/E-project-042518-124639/unrestricted/Developing_a_Benchmark_for_Qt_on_Embedded_Platforms.pdf
 
 All aspects of performance will be measured. This includes (but is not limited to):
 
@@ -42,6 +44,13 @@ The time between the application start to the first complete paint **and** input
 
 - **cold**: The startup time immediately after first download or compile (no caching, first JIT not yet performed)
 - **warm**: The startup time after opening and closing the application 8 times
+
+### Memory usage
+
+- Physical memory usage
+- Virtual memory usage
+- Private memory usage
+- Shared memory usage
 
 ### Rendering speed
 
