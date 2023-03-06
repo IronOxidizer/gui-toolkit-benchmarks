@@ -62,6 +62,18 @@ This can be tested in two ways.
 
 ## Test Platforms
 
+Requirements:
+
+- simple
+- light
+- non-tiling (tiling window managers may cause repaints on application launch or resize events)
+
 ### Linux X
 
-This will use the latest [Debian Sid NetInst](https://www.debian.org/CD/netinst/) as the base image since it's the best representation of a modern install with up-to-date packages that are properly segregated and minimal resource usage. Openbox is a simple, light, and widely used window manager for X that does not automatically tile windows (which would cause a repaint for some toolkits) or include a toolbar/panel which makes it the perfect window manager for the X test platform.
+- [Debian Sid NetInst](https://www.debian.org/CD/netinst/)
+- [TinyWM](http://incise.org/tinywm.html)
+
+### Linux Wayland
+
+- [Debian Sid NetInst](https://www.debian.org/CD/netinst/)
+- [Weston](https://github.com/wayland-project/weston)
