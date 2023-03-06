@@ -13,6 +13,7 @@ Heavily inspired by the following projects:
 - https://eugenkiss.github.io/7guis/more
 - https://szibele.com/memory-footprint-of-gui-toolkits/
 - https://web.wpi.edu/Pubs/E-project/Available/E-project-042518-124639/unrestricted/Developing_a_Benchmark_for_Qt_on_Embedded_Platforms.pdf
+- https://lukaskalbertodt.github.io/2023/02/03/tauri-iced-egui-performance-comparison.html
 
 All aspects of performance will be measured. This includes (but is not limited to):
 
