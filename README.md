@@ -31,12 +31,12 @@ Metrics will have different variants to cover all important cases such as cold a
 
 ## Testing methodology
 
-### Executable size
+### Size
 
 The size of the executable with the following variants:
 
 - **total**: The executable along with its runtime dependencies (size of container after compilation and cleanup minus size of base image)
-- **base**: The single executable by itself
+- **executable**: The single executable by itself
 
 ### Startup time
 
