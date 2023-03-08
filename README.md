@@ -17,7 +17,7 @@ Heavily inspired by the following projects:
 
 All aspects of performance will be measured. This includes (but is not limited to):
 
-- Executable size
+- Size
 - Startup time
 - Memory usage
 - Rendering speed
@@ -35,9 +35,8 @@ Metrics will have different variants to cover all important cases such as cold a
 
 The size of the executable with the following variants:
 
+- **total**: The executable along with its runtime dependencies (size of container after compilation and cleanup minus size of base image)
 - **base**: The single executable by itself
-- **total**: The executable along with its runtime dependencies (not including base platform, OS, window manager, i.e things that were already installed in the base image)
-- **stripped total**: Same as total but with the executable and runtime dependencies stripped of extraneous symbols
 
 ### Startup time
 
