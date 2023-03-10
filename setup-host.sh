@@ -23,4 +23,5 @@ su "$(logname)"
 
 # Setup and start window manager
 echo 'exec openbox' > ~/.xinitrc
+echo $'if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then\n  startx\n fi' 
 startx
