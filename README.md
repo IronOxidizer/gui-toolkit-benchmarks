@@ -36,6 +36,7 @@ Metrics will have different variants to cover all important cases such as cold a
 The size of the executable with the following variants:
 
 - **total**: The executable along with its runtime dependencies (size of container after compilation and cleanup minus size of base image)
+    - `docker ps --size -a`
 - **executable**: The single executable by itself
 
 ### Startup time
