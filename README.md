@@ -63,17 +63,16 @@ This can be tested in two ways.
 
 Requirements:
 
-- simple
-- light
+- lightweight
 - non-tiling (tiling window managers may cause repaints on application launch or resize events)
 
 ### Linux X
 
-- [Debian Sid NetInst](https://www.debian.org/CD/netinst/)
+- [Debian](https://www.debian.org/CD/netinst/)
 - ~~[TinyWM](http://incise.org/tinywm.html)~~
 - [OpenBox](http://openbox.org)
 
-### Linux Wayland
+### Linux Wayland (todo)
 
-- [Debian Sid NetInst](https://www.debian.org/CD/netinst/)
+- [Debian](https://www.debian.org/CD/netinst/)
 - [Weston](https://github.com/wayland-project/weston)
