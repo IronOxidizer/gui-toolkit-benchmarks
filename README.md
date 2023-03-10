@@ -1,7 +1,7 @@
 # gui-toolkit-benchmarks
 A suite of benchmarks for measuring the performance of various system GUI toolkits
 
-This project was created with the hopes of creating competition between various GUI toolkit projects in the same way that the [TechEmpower benchmarks](https://github.com/TechEmpower/FrameworkBenchmarks) pushed web server frameworks to strive for more than what's [currently acceptable](https://en.wikipedia.org/wiki/Wirth%27s_law).
+This project was created with the hopes of creating competition between various GUI toolkit projects in the same way that the [TechEmpower benchmarks](https://github.com/TechEmpower/FrameworkBenchmarks) pushed web server frameworks to [raise the bar](https://en.wikipedia.org/wiki/Wirth%27s_law).
 
 Heavily inspired by the following projects:
 
