@@ -68,11 +68,10 @@ Requirements:
 
 ### Linux X
 
-- [Debian](https://www.debian.org/CD/netinst/)
-- ~~[TinyWM](http://incise.org/tinywm.html)~~
-- [OpenBox](http://openbox.org)
+- Host Distro: [Debian](https://www.debian.org/CD/netinst/)
+- Window Manager: ~~[TinyWM](http://incise.org/tinywm.html)~~ [OpenBox](http://openbox.org)
 
 ### Linux Wayland (todo)
 
-- [Debian](https://www.debian.org/CD/netinst/)
-- [Weston](https://github.com/wayland-project/weston)
+- Host Distro: [Debian](https://www.debian.org/CD/netinst/)
+- Window Manager: [Weston](https://github.com/wayland-project/weston)
