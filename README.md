@@ -70,7 +70,8 @@ Requirements:
 ### Linux X
 
 - [Debian Sid NetInst](https://www.debian.org/CD/netinst/)
-- [TinyWM](http://incise.org/tinywm.html)
+- ~~[TinyWM](http://incise.org/tinywm.html)~~
+- [OpenBox](https://openbox.org)
 
 ### Linux Wayland
 
