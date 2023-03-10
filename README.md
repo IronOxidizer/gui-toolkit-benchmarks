@@ -71,7 +71,7 @@ Requirements:
 
 - [Debian Sid NetInst](https://www.debian.org/CD/netinst/)
 - ~~[TinyWM](http://incise.org/tinywm.html)~~
-- [OpenBox](https://openbox.org)
+- [OpenBox](http://openbox.org)
 
 ### Linux Wayland
 
