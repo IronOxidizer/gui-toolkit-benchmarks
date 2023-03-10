@@ -9,7 +9,7 @@ fi
 apt-get update && apt-get upgrade
 
 # Install dependencies
-apt-get install --no-install-recommends ca-certificates curl gnupg lsb-release xorg openbox 
+apt-get install --no-install-recommends ca-certificates curl gnupg lsb-release xorg openbox dbus-user-session
 
 # Install docker
 mkdir -m 0755 -p /etc/apt/keyrings
@@ -21,6 +21,6 @@ apt-get install --no-install-recommends docker-ce docker-ce-cli containerd.io do
 # Return to normal user
 su "$(logname)"
 
-# Setup display
+# Setup and start window manager
 echo 'exec openbox' > ~/.xinitrc
 startx
