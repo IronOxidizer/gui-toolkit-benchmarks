@@ -60,6 +60,8 @@ This can be tested in two ways.
 - How quickly an animation can be rendered, assuming all GUI toolkits display the same frames
 - The min/avg/max framerate given an animation function and a fixed time
 
+https://linuxhint.com/show_fps_counter_linux_games/
+
 ## Test Platforms
 
 Requirements:
