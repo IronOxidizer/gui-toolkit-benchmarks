@@ -12,7 +12,7 @@
 1. run the following commands
     ```
     # login to root
-    apt install -y --no-install-recommends sudo git
+    apt install -y --no-install-recommends sudo git ca-certificates 
 	groupadd docker
     usermod -aG sudo,video,docker user
     exit
