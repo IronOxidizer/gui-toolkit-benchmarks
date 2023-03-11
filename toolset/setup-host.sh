@@ -9,7 +9,7 @@ fi
 apt-get update && apt-get upgrade
 
 # Install dependencies
-apt-get install --no-install-recommends -y ca-certificates curl gnupg lsb-release xorg openbox dbus-user-session
+apt-get install --no-install-recommends -y curl gnupg lsb-release xorg openbox dbus-user-session
 
 # Install docker
 mkdir -m 0755 -p /etc/apt/keyrings
