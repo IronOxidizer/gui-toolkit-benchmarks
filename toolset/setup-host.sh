@@ -18,10 +18,7 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.
 apt-get update
 apt-get install --no-install-recommends -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin
 
-# Return to normal user
-su "$(logname)"
-
-# Setup and start window manager
-echo 'exec openbox' > ~/.xinitrc
-echo $'if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then\n  startx\nfi' >> ~/.profile
-startx
+# Setup window manager
+echo 'exec openbox' > "/home/$(logname)/.xinitrc"
+echo $'if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then\n  startx\nfi' >> "/home/$(logname)/.profile"
+chown "$(logname)":"$(logname)" "/home/$(logname)/.xinitrc" "/home/$(logname)/.profile"
