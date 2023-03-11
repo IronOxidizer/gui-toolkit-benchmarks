@@ -11,10 +11,12 @@
 1. reboot
 1. run the following commands
     ```
-    su -
+    # login to root
     apt install -y --no-install-recommends sudo git
-    usermod -aG sudo,video user
+	groupadd docker
+    usermod -aG sudo,video,docker user
     exit
+	# login to user
     git clone https://github.com/IronOxidizer/gui-toolkit-benchmarks.git
     cd gui-toolkit-benchmarks
     sudo ./setup-host.sh

@@ -1,11 +1,12 @@
 FROM rust:slim
 
+RUN apt-get update && apt-get install -y pkg-config libglib2.0-dev libgtk-3-dev
+
 ADD ./ /druid
 WORKDIR /druid
 
 RUN cargo clean
-RUN RUSTFLAGS="-C target-cpu=native" cargo build --release
-
-EXPOSE 8080
+RUN cargo build --release
 
 CMD ./target/release/druid
+
