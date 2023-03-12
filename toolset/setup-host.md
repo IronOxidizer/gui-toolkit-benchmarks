@@ -19,5 +19,5 @@
 	# login to user
     git clone https://github.com/IronOxidizer/gui-toolkit-benchmarks.git
     cd gui-toolkit-benchmarks
-    sudo ./setup-host.sh
+    sudo ./toolset/setup-host.sh
     ```
