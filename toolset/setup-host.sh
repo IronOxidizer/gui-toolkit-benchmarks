@@ -20,7 +20,7 @@ apt-get install --no-install-recommends -y docker-ce docker-ce-cli containerd.io
 
 # Setup window manager
 echo 'exec openbox' > "/home/$(logname)/.xinitrc"
-echo $'if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then\n  startx\nfi' >> "/home/$(logname)/.profile"
+echo 'if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then\n  startx\nfi' >> "/home/$(logname)/.profile"
 chown "$(logname)":"$(logname)" "/home/$(logname)/.xinitrc" "/home/$(logname)/.profile"
 
 echo 'Setup is complete, rebooting in 3 seconds'
