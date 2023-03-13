@@ -1,31 +1,27 @@
-use iced::{Text, Sandbox, Element, Settings};
-fn main() -> iced::Result
-{
+use iced::{Element, Sandbox, Settings};
+
+pub fn main() -> iced::Result {
     Hello::run(Settings::default())
 }
 
 struct Hello;
 
-impl Sandbox for Hello
-{
-	type Message = ();
+impl Sandbox for Hello {
+    type Message = ();
 
-	fn new() -> Self
-	{
-		Self
-	}
+    fn new() -> Hello {
+        Hello
+    }
 
-	fn title(&self) -> String
-	{
-		String::from("Title")
-	}
-	fn update(&mut self, _message: Self::Message)
-	{
+    fn title(&self) -> String {
+        String::from("A cool application")
+    }
 
-	}
-	fn view(&mut self) -> Element<Self::Message>
-	{
-		Text::new("Hello world").into()
-	}
+    fn update(&mut self, _message: Self::Message) {
+        // This application has no interactions
+    }
+
+    fn view(&self) -> Element<Self::Message> {
+        "Hello, world!".into()
+    }
 }
-    
