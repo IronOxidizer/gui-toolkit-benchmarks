@@ -5,4 +5,4 @@ authors = []
 edition = "2021"
 
 [dependencies]
-iced = { version = "0.8.0", default-features = false }
+iced = { version = "0.8.0", features = ["glow"] }
