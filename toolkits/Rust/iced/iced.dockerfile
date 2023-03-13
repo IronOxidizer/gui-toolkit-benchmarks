@@ -1,11 +1,11 @@
 FROM rust:slim
 
+#RUN apt-get update && apt-get install -qq pkg-config libglib2.0-dev libgtk-3-dev
+
 ADD ./ /iced
 WORKDIR /iced
 
 RUN cargo clean
-RUN RUSTFLAGS="-C target-cpu=native" cargo build --release
-
-EXPOSE 8080
+RUN cargo build --release
 
 CMD ./target/release/iced
