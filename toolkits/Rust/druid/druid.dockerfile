@@ -1,6 +1,6 @@
 FROM rust:slim
 
-RUN apt-get update && apt-get install -y pkg-config libglib2.0-dev libgtk-3-dev
+RUN apt-get update && apt-get install -qq --no-install-recommends pkg-config libglib2.0-dev libgtk-3-dev
 
 ADD ./ /druid
 WORKDIR /druid
