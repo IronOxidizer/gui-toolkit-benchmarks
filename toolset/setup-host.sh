@@ -9,7 +9,7 @@ fi
 apt-get update && apt-get upgrade
 
 # Install dependencies
-apt-get install --no-install-recommends -y curl gnupg lsb-release xorg openbox dbus-user-session
+apt-get install --no-install-recommends -y curl gnupg lsb-release xorg openbox dbus-user-session python3-pip
 
 # Install docker
 mkdir -m 0755 -p /etc/apt/keyrings
