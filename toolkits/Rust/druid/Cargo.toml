@@ -5,4 +5,4 @@ authors = []
 edition = "2021"
 
 [dependencies]
-druid = { version = "0.8.3", default-features = false }
+druid = { version = "0.8.3" }
