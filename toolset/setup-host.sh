@@ -17,11 +17,13 @@ curl -fsSL https://download.docker.com/linux/debian/gpg | gpg --dearmor -o /etc/
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/debian $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null
 apt-get update
 apt-get install --no-install-recommends -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin
+python3 -m pip install docker
 
 # Setup window manager
-echo 'exec openbox' > "/home/$(logname)/.xinitrc"
-echo 'if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then\n  startx\nfi' >> "/home/$(logname)/.profile"
-chown "$(logname)":"$(logname)" "/home/$(logname)/.xinitrc" "/home/$(logname)/.profile"
+userhome="/home/$(logname)"
+echo 'exec openbox' > "$(userhome)/.xinitrc"
+echo 'if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then\n  startx\nfi' >> "$(userhome)/.profile"
+chown "$(logname)":"$(logname)" "$(userhome)/.bashrc" "$(userhome)/.xinitrc" "$(userhome)/.profile"
 
 echo 'Setup is complete, rebooting in 3 seconds'
 sleep 3
