@@ -15,10 +15,12 @@
  * TODO: this should probably be a shared library that's callable from within our python script
  */
 
-#include <stdio.h>
 #include <xcb/xcb.h>
 #include <xcb/xcb_image.h> 
+
 #include <inttypes.h>
+#include <stdio.h>
+#include <unistd.h>
 
 // https://refspecs.linuxfoundation.org/LSB_5.0.0/LSB-Desktop-generic/LSB-Desktop-generic.html
 #define AllPlanes   ((unsigned long)~0L)
@@ -26,7 +28,7 @@
 
 int main() {
     // Location of pixel to check
-    int16_t x = 0, y = 0;
+    int16_t x = 10, y = 10;
     
     // Open the connection to the X server. Use the DISPLAY environment variable
     int screen_idx;
@@ -42,7 +44,10 @@ int main() {
     xcb_screen_t *screen = iter.data;
     
     // Get pixel
-    uint32_t pixel = xcb_image_get_pixel(xcb_image_get(conn, screen->root, x, y, 1, 1, AllPlanes, XYPixmap), 0, 0);
-    printf("%d", pixel);
+    for (;;) {
+        uint32_t pixel = xcb_image_get_pixel(xcb_image_get(conn, screen->root, x, y, 1, 1, AllPlanes, XYPixmap), 0, 0);
+        printf("\n%d", pixel);
+        sleep(0.1);
+    }
     return 0;
 }
