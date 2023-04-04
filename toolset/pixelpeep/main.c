@@ -11,6 +11,8 @@
  * @param   [uint]  timeout (default=10,000,000) the max time in microseconds to wait for
  * @param   [uint]  color   the color that the pixel must change to, any color change will end the timer if un-specified
  * @return  int     {0, 1}  returns 0 if a change was detected before the timeout, 1 if the timeout was reached
+ *
+ * TODO: this should probably be a shared library that's callable from within our python script
  */
 
 #include <stdio.h>
