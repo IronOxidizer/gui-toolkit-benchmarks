@@ -1,10 +1,12 @@
 /*
  * compile dependencies: sudo apt-get install libxcb1-dev libxcb-image0-dev
  * runtime dependencies: sudo apt-get install xcb
- * debug: gcc main.c -lxcb -lxcb-image -Og -Wall
- * release: gcc main.c -lxcb -lxcb-image -Ofast
+ * debug: gcc main-xcb.c -lxcb -lxcb-image -Og -Wall -o pixelpeep-xcb
+ * release: gcc main-xcb.c -lxcb -lxcb-image -Ofast -o pixelpeep-xcb
  * 
  * This program monitors a specific pixel, and prints how many microseconds (0.000001) it takes for it to change color
+ * 
+ * 100,000 pixel fetches in 157s = 1.57ms per fetch
  * 
  * @param   int     x       the x position of the pixel
  * @param   int     y       the y position of the pixel
@@ -44,10 +46,10 @@ int main() {
     xcb_screen_t *screen = iter.data;
     
     // Get pixel
-    for (;;) {
+    for (int i = 0; i < 100000; ++i) {
         uint32_t pixel = xcb_image_get_pixel(xcb_image_get(conn, screen->root, x, y, 1, 1, AllPlanes, XYPixmap), 0, 0);
-        printf("\n%d", pixel);
-        sleep(0.1);
+        //printf("\n%d", pixel);
+        //sleep(0.1);
     }
     return 0;
 }
