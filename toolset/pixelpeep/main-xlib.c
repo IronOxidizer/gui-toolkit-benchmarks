@@ -20,13 +20,15 @@ int main() {
     XImage *image = XGetImage(d, window, x, y, 1, 1, AllPlanes, XYPixmap);
     XGetPixel(image, 0, 0);
     //sleep(0.1);
-        
+    
+    printf("testing");
     for (int i = 0; i < 99999; ++i) {
         XGetSubImage(d, window, x, y, 1, 1, AllPlanes, XYPixmap, image, 0, 0);
-        XGetPixel(image, 0, 0);
+        unsigned int pixel = XGetPixel(image, 0, 0);
+        //printf("%u", pixel);
         //sleep(0.1);
     }
     
-    XFree(image);
+    XDestroyImage(image);
     return 0;
 }
