@@ -26,8 +26,8 @@ unsigned int await_pixel_change(int x, int y, unsigned int timeout, int color) {
     // TODO: Setup boilerplate once
     Display *d = XOpenDisplay(NULL);
     Window window = XRootWindow(d, XDefaultScreen(d));
-    XImage *image = XGetImage(d, window, x, y, 1, 1, AllPlanes, ZPixmap);
     
+    XImage *image = XGetImage(d, window, x, y, 1, 1, AllPlanes, ZPixmap);
     unsigned int pixel = XGetPixel(image, 0, 0);
     unsigned int start_color = pixel;
     
@@ -41,6 +41,7 @@ unsigned int await_pixel_change(int x, int y, unsigned int timeout, int color) {
     // TODO: Do cleanup once
     XDestroyImage(image);
     XCloseDisplay(d);
+    
     return timeout != 0;
 }
 
