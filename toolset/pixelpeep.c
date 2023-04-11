@@ -110,6 +110,7 @@ int await_stable_image(char *window_name, unsigned int timeout, unsigned int sta
     if (window_name) {
         window = search_window_by_name(conn, screen->root, window_name);
         if (!window) return -2;
+        // find top level child (first child under root that contains the window)
         xcb_query_tree_reply_t *tree_reply = xcb_query_tree_reply(conn, xcb_query_tree(conn, window), NULL);
         xcb_window_t parent = tree_reply->parent;
         free(tree_reply);
