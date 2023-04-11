@@ -48,6 +48,7 @@ void print_hex(const char *s) {
     fprintf(stderr,"\n");
 }
 
+// This can take up to 20ms, and as little as 1ms depending on the order of the window. The focused window will take 1ms
 xcb_window_t search_window_by_name(xcb_connection_t *conn, xcb_window_t window, const char *search_string) {
     // check name
     xcb_get_property_reply_t *name_reply = xcb_get_property_reply(conn, xcb_get_property(conn, 0, window, XCB_ATOM_WM_NAME, XCB_ATOM_STRING, 0, 256), NULL);
@@ -71,10 +72,10 @@ xcb_window_t search_window_by_name(xcb_connection_t *conn, xcb_window_t window, 
     // get children
     xcb_query_tree_reply_t *tree_reply = xcb_query_tree_reply(conn, xcb_query_tree(conn, window), NULL);
     xcb_window_t *children = xcb_query_tree_children(tree_reply);
-    size_t num_children = xcb_query_tree_children_length(tree_reply);
+    int num_children = xcb_query_tree_children_length(tree_reply);
 
     // recurse
-    for (size_t i = 0; i < num_children; ++i) {
+    for (int i = num_children - 1; i >= 0 ; --i) { // back to font, last child is at the top of the stack
         xcb_window_t child = search_window_by_name(conn, children[i], search_string);
         if (child != 0) {
             free(tree_reply);
@@ -157,7 +158,13 @@ int await_stable_image(const char *window_name, unsigned int timeout, unsigned i
     int shm_id = shmget(IPC_PRIVATE, data_bytes, IPC_CREAT | 0777);
     xcb_shm_attach(conn, seg, shm_id, 0);
     char *shared_buffer = (char *)shmat(shm_id, NULL, 0);
+    
+    // initialize comparison image
+    free(xcb_shm_get_image_reply(conn, xcb_shm_get_image_unchecked(
+        conn, screen->root, x, y, w, h, AllPlanes, XCB_IMAGE_FORMAT_Z_PIXMAP, seg, 0), NULL));
+    clock_gettime(1, &end_time);
     char *image_copy = (char *)malloc(data_bytes);
+    memcpy(image_copy, shared_buffer, data_bytes);
     
     // time stable image
     for (int stable_ticks = 0; stable_ticks < stabilizer && --timeout; ++stable_ticks) {
