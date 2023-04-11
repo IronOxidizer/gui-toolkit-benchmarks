@@ -56,23 +56,34 @@ xcb_window_t search_window_by_name(xcb_connection_t *conn, xcb_window_t window, 
         if (name_len > 1) {
             char *name = malloc(name_len + 1);
             memcpy(name, xcb_get_property_value(name_reply), name_len);
-            free(name_reply);
             name[name_len] = '\0';
-            if (strstr(name, search_string)) return window;
+            if (strstr(name, search_string)) {
+                free(name_reply);
+                free(name);
+                return window;
+            }
+            free(name);
         }
+        free(name_reply);
+        
     }
 
     // get children
     xcb_query_tree_reply_t *tree_reply = xcb_query_tree_reply(conn, xcb_query_tree(conn, window), NULL);
     xcb_window_t *children = xcb_query_tree_children(tree_reply);
     size_t num_children = xcb_query_tree_children_length(tree_reply);
-    free(tree_reply);
 
     // recurse
     for (size_t i = 0; i < num_children; ++i) {
         xcb_window_t child = search_window_by_name(conn, children[i], search_string);
-        if (child != 0) return child;
+        if (child != 0) {
+            free(tree_reply);
+            return child;
+        }
     }
+    
+    // cleanup
+    free(tree_reply);
     return 0;
 }
 
@@ -154,8 +165,8 @@ int await_stable_image(const char *window_name, unsigned int timeout, unsigned i
         usleep(1000); 
         
         // update shared buffer
-        xcb_shm_get_image_reply(conn, xcb_shm_get_image_unchecked(
-            conn, screen->root, x, y, w, h, AllPlanes, XCB_IMAGE_FORMAT_Z_PIXMAP, seg, 0), NULL);
+        free(xcb_shm_get_image_reply(conn, xcb_shm_get_image_unchecked(
+            conn, screen->root, x, y, w, h, AllPlanes, XCB_IMAGE_FORMAT_Z_PIXMAP, seg, 0), NULL));
         
         // reset if doesn't match
         if (memcmp(image_copy, shared_buffer, data_bytes)) {
