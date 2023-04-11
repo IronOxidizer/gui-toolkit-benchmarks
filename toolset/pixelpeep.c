@@ -42,23 +42,34 @@
 #define AllPlanes       ~0u // https://refspecs.linuxfoundation.org/LSB_5.0.0/LSB-Desktop-generic/LSB-Desktop-generic.html
 #define BYTES_PER_PIXEL 4   // assume 4 bytes per pixel
 
+void print_hex(const char *s) {
+    fprintf(stderr,"\n");
+    while (*s) fprintf(stderr, "%02x ", (unsigned int) *s++);
+    fprintf(stderr,"\n");
+}
+
 xcb_window_t search_window_by_name(xcb_connection_t *conn, xcb_window_t window, const char *search_string) {
     // check name
     xcb_get_property_reply_t *name_reply = xcb_get_property_reply(conn, xcb_get_property(conn, 0, window, XCB_ATOM_WM_NAME, XCB_ATOM_STRING, 0, 256), NULL);
     if (name_reply) {
-        char *name = xcb_get_property_value(name_reply);
-		free(name_reply);
-        if (name && strstr(name, search_string)) return window;
+        size_t name_len = xcb_get_property_value_length(name_reply);
+        if (name_len > 1) {
+            char *name = malloc(name_len + 1);
+            memcpy(name, xcb_get_property_value(name_reply), name_len);
+            free(name_reply);
+            name[name_len] = '\0';
+            if (strstr(name, search_string)) return window;
+        }
     }
 
     // get children
     xcb_query_tree_reply_t *tree_reply = xcb_query_tree_reply(conn, xcb_query_tree(conn, window), NULL);
     xcb_window_t *children = xcb_query_tree_children(tree_reply);
-    int num_children = xcb_query_tree_children_length(tree_reply);
+    size_t num_children = xcb_query_tree_children_length(tree_reply);
     free(tree_reply);
 
     // recurse
-    for (int i = 0; i < num_children; ++i) {
+    for (size_t i = 0; i < num_children; ++i) {
         xcb_window_t child = search_window_by_name(conn, children[i], search_string);
         if (child != 0) return child;
     }
@@ -93,11 +104,10 @@ void write_image_to_file(unsigned char* frame_buffer, int width, int height, cha
  *                                  -2 if the window could not be found
  *                                  -3 if the image never changed, this can happen if the window is not entirely in the screen
  */
-int await_stable_image(char *window_name, unsigned int timeout, unsigned int stabilizer) {
+int await_stable_image(const char *window_name, unsigned int timeout, unsigned int stabilizer) {
     // start timer
     struct timespec start_time, end_time;
     clock_gettime(1, &start_time);
-    
     if (!timeout) timeout = 10000;      // default 10s
     if (!stabilizer) stabilizer = 1000; // default 1s
     
@@ -168,4 +178,11 @@ int await_stable_image(char *window_name, unsigned int timeout, unsigned int sta
     int elapsed_time = (int)((end_time.tv_sec - start_time.tv_sec) * 1000 + (end_time.tv_nsec - start_time.tv_nsec) / 1e6);
     if (elapsed_time < 0) return -3;
     return elapsed_time;
+}
+
+int main() {
+    await_stable_image("app-name", 0, 0);
+    await_stable_image("app-name", 0, 0);
+    await_stable_image("app-name", 0, 0);
+    return 0;
 }
