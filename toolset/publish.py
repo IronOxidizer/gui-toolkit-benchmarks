@@ -22,7 +22,10 @@ a {
 	font-weight:500;
 	text-decoration-line:none
 }
-th { cursor: pointer }
+th {
+    cursor: pointer;
+    padding: 0 10px
+}
 tr:nth-child(even) { background: #444 }
 header { text-align: center }
 table { margin: auto }
@@ -33,9 +36,11 @@ table { margin: auto }
   <a href="https://github.com/IronOxidizer/gui-toolkit-benchmarks">Help improve this open source project on Github</a>. 
   This page was last updated on %s
 </header>
+<br>
 <table>
   <tr>
     <th>Toolkit</th>
+    <th>Language</th>
     <th>Memory Usage (KB)</th>
     <th>Startup Time (ms)</th>
   </tr>
@@ -65,6 +70,7 @@ function sortColumn(index) {
 
 DEVICE_TEMPLATE = """<tr>
 <td>{name}</td>
+<td>{lang}</td>
 <td>{memory}</td>
 <td>{startup}</td>
 </tr>"""

@@ -1,1 +1,1 @@
-[{"name": "iced", "memory": 60144, "startup": 303}, {"name": "druid", "memory": 5724, "startup": 179}]
+[{"name": "iced", "lang": "Rust", "memory": 62196, "startup": 322}, {"name": "druid", "lang": "Rust", "memory": 5744, "startup": 192}]

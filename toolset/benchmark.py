@@ -61,7 +61,7 @@ for toolkit in toolkits:
     startup = pixelpeep.await_stable_image(None, 0, 0)
     print("Recording metrics for toolkit")
     memory = round(container.stats(stream=False)["memory_stats"]["usage"] / KB)
-    result = {"name": name, "memory": memory, "startup": startup}
+    result = {"name": name, "lang": toolkit.lang, "memory": memory, "startup": startup}
     print(result)
     results.append(result)
     
