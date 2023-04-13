@@ -24,7 +24,7 @@ print("Working directory set to", path_project)
 
 # Get all toolkits
 toolkits = []
-results = {}
+results = []
 for dockerfile in path_project.glob("toolkits/*/*/*.dockerfile"):
     name = dockerfile.stem
     lang = dockerfile.parents[1].name
@@ -58,18 +58,18 @@ for toolkit in toolkits:
         environment={"DISPLAY": os.getenv("DISPLAY")},
         detach=True)
     
-    startup_time = pixelpeep.await_stable_image(None, 0, 0)
+    startup = pixelpeep.await_stable_image(None, 0, 0)
     print("Recording metrics for toolkit")
     memory = round(container.stats(stream=False)["memory_stats"]["usage"] / KB)
-    result = {"startup_time": startup_time, "memory": memory}
+    result = {"name": name, "memory": memory, "startup": startup}
     print(result)
-    results[name] = result
+    results.append(result)
     
     print("Stopping toolkit")
     container.remove(force=True)
     
 print("\nSaving results")
-with open(f"results/{round(time.time())}.json", "w") as f:
+with open(f"toolset/result.json", "w") as f:
     json.dump(results, f)
 
 # Cleanup images after benchmarking
