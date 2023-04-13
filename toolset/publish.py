@@ -73,6 +73,6 @@ with open(RESULTS_PATH, 'r') as f:
   results = json.load(f)
 
 html_rows = "".join(DEVICE_TEMPLATE.format(**result) for result in results)
-index = INDEX_TEMPLATE % (date.today().strftime("%B %d, %Y"), html_rows)
+html_index = INDEX_TEMPLATE % (date.today().strftime("%B %d, %Y"), html_rows)
 mkdir(OUT_DIR)
-open(OUT_DIR + "index.html", "w").write(generated)
+open(OUT_DIR + "index.html", "w").write(html_index)
