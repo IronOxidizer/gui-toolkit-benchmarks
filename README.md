@@ -17,21 +17,21 @@ Heavily inspired by the following projects:
 
 All aspects of performance will be measured. This includes (but is not limited to):
 
-- Size
+- Size (TODO)
 - Startup time
 - Memory usage
-- Rendering speed
-- Input latency/reponsiveness
-- CPU usage
-- GPU usage
-- Disk/cache usage
-- Resource scalability (multiple app instances, large grids)
+- Rendering speed (TODO)
+- Input latency/reponsiveness (TODO)
+- CPU usage (TODO)
+- GPU usage (TODO)
+- Disk/cache usage (TODO)
+- Resource scalability (multiple app instances, large grids) (TODO)
 
 Metrics will have different variants to cover all important cases such as cold and warm results (first run and after some caching/JIT), standalone and shared resource usage (executable and libs/vm/interpreter), and multiple platforms and architectures.
 
 ## Testing methodology
 
-### Size
+### Size (TODO)
 
 The size of the executable with the following variants:
 
@@ -41,7 +41,7 @@ The size of the executable with the following variants:
 
 ### Startup time
 
-The time between the application start to the first complete paint **and** input handling is enabled. This is sent to the benchmarker by printing the epoch time in the most precise method to `stderr` when startup is complete. Startup time has the following variants:
+The time between the application start to the first complete paint. This is done by measuring the time needed for the image on screen to stabilize.
 
 - **cold**: The startup time immediately after first download or compile (no caching, first JIT not yet performed)
 - **warm**: The startup time after opening and closing the application 8 times
@@ -53,7 +53,7 @@ The time between the application start to the first complete paint **and** input
 - Private memory usage
 - Shared memory usage
 
-### Rendering speed
+### Rendering speed (TODO)
 
 This can be tested in two ways.
 
