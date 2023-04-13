@@ -1,4 +1,5 @@
 from datetime import date
+from os import mkdir
 import json
 
 OUT_DIR = "_site/"
