@@ -7,6 +7,7 @@
  * release: gcc -shared -o pixelpeep.so -fPIC -Ofast pixelpeep.c -lxcb -lxcb-shm 
  * 
  * NOTE
+ * - Because we sleep for 10ms in the hotpath, the precision of this timer is +-10ms
  * - XYPixmap is 50x slower for some reason, so we use ZPixmap instead
  * - In the future, we should also try using the xcb damage extension
  * 
@@ -120,8 +121,8 @@ int await_stable_image(const char *window_name, unsigned int timeout, unsigned i
     // start timer
     struct timespec start_time, end_time;
     clock_gettime(1, &start_time);
-    if (!timeout) timeout = 10000;      // default 10s
-    if (!stabilizer) stabilizer = 1000; // default 1s
+    if (!timeout) timeout = 1000;      // default 10s
+    if (!stabilizer) stabilizer = 100; // default 1s
     
     // open the connection to the X server
     xcb_connection_t *conn = xcb_connect(NULL, NULL);
@@ -168,8 +169,8 @@ int await_stable_image(const char *window_name, unsigned int timeout, unsigned i
     
     // time stable image
     for (int stable_ticks = 0; stable_ticks < stabilizer && --timeout; ++stable_ticks) {
-        // sleep for 1ms to not load the CPU and influence the results
-        usleep(1000); 
+        // sleep for 10ms to not load the xserver / CPU and influence the results
+        usleep(10000); 
         
         // update shared buffer
         free(xcb_shm_get_image_reply(conn, xcb_shm_get_image_unchecked(
