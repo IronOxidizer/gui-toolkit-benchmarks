@@ -8,19 +8,19 @@ RESULTS_PATH = "toolset/result.json"
 INDEX_TEMPLATE = """<head>
 <style>
 body {
-	font-family: roboto,helvetica,arial,sans-serif;
-	background-color:#2a2a2a;
-	color:#ddd;
-	font-weight:400
+    font-family: roboto,helvetica,arial,sans-serif;
+    background-color:#2a2a2a;
+    color:#ddd;
+    font-weight:400
 }
 a:hover, a:focus {
-	color: #d2991d;
-	text-decoration: underline
+    color: #d2991d;
+    text-decoration: underline
 }
 a {
-	color:#fdb735;
-	font-weight:500;
-	text-decoration-line:none
+    color:#fdb735;
+    font-weight:500;
+    text-decoration-line:none
 }
 th {
     cursor: pointer;
@@ -29,7 +29,10 @@ th {
 td { text-align: right }
 tr:nth-child(even) { background: #444 }
 header { text-align: center }
-table { margin: auto }
+table { 
+    margin: auto;
+    background-color: #505050
+}
 </style>
 </head>
 
