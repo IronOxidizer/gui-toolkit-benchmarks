@@ -26,6 +26,7 @@ th {
     cursor: pointer;
     padding: 0 10px
 }
+td { text-align: right }
 tr:nth-child(even) { background: #444 }
 header { text-align: center }
 table { margin: auto }
