@@ -1,0 +1,8 @@
+[package]
+name = "gtk-rs"
+version = "0.1.0"
+authors = []
+edition = "2021"
+
+[dependencies]
+gtk = { version = "0.17.1" }

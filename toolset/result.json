@@ -1,1 +1,1 @@
-[{"name": "iced", "lang": "Rust", "memory": 60612, "startup": 254}, {"name": "egui", "lang": "Rust", "memory": 39720, "startup": 289}, {"name": "druid", "lang": "Rust", "memory": 5728, "startup": 169}]
+[{"name": "gtk-rs", "lang": "Rust", "memory": 5556, "startup": 169}, {"name": "iced", "lang": "Rust", "memory": 62192, "startup": 264}, {"name": "egui", "lang": "Rust", "memory": 41444, "startup": 269}, {"name": "druid", "lang": "Rust", "memory": 5732, "startup": 163}]
