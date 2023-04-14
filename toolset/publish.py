@@ -81,6 +81,7 @@ DEVICE_TEMPLATE = """<tr>
 
 with open(RESULTS_PATH, 'r') as f:
   results = json.load(f)
+results.sort(key=lambda toolkit: toolkit["memory"]) # default sort by lowest memory
 
 html_rows = "".join(DEVICE_TEMPLATE.format(**result) for result in results)
 html_index = INDEX_TEMPLATE % (date.today().strftime("%B %d, %Y"), html_rows)
