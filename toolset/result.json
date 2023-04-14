@@ -1,1 +1,1 @@
-[{"name": "iced", "lang": "Rust", "memory": 62196, "startup": 322}, {"name": "druid", "lang": "Rust", "memory": 5744, "startup": 192}]
+[{"name": "iced", "lang": "Rust", "memory": 60612, "startup": 254}, {"name": "egui", "lang": "Rust", "memory": 39720, "startup": 289}, {"name": "druid", "lang": "Rust", "memory": 5728, "startup": 169}]

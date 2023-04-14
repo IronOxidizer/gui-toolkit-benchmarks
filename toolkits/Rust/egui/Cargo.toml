@@ -1,0 +1,9 @@
+[package]
+name = "egui"
+version = "0.1.0"
+authors = []
+edition = "2021"
+
+[dependencies]
+eframe = { version = "0.21.3" }
+tracing-subscriber = "0.3"
