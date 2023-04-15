@@ -66,6 +66,10 @@ function sortColumn(index) {
 		...oldRows.slice(1).sort(function (rowA, rowB) {
 			const cellA = rowA.children[index].innerText;
 			const cellB = rowB.children[index].innerText;
+                        if (parseFloat(cellA) != NaN && parseFloat(cellB) != NaN) {
+                            cellA = parseFloat(cellA);
+                            cellB = parseFloat(cellB);
+                        }
 			return ((cellA > cellB) - (cellB > cellA)) * sortDirection;
 		}
 	))
