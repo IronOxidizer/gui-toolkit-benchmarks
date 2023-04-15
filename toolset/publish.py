@@ -66,7 +66,7 @@ function sortColumn(index) {
 		...oldRows.slice(1).sort(function (rowA, rowB) {
 			let cellA = rowA.children[index].innerText;
 			let cellB = rowB.children[index].innerText;
-                        if (parseFloat(cellA) != NaN && parseFloat(cellB) != NaN) {
+                        if (!isNaN(parseFloat(cellA)) && !isNaN(parseFloat(cellB))) {
                             cellA = parseFloat(cellA);
                             cellB = parseFloat(cellB);
                         }
