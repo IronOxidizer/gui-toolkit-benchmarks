@@ -52,7 +52,8 @@ table {
 </table> 
 <script>
 "use strict";
-var lastIndex = 2, sortDirection = 1;
+var lastIndex = 2; // Default sort by memory
+var sortDirection = 1;
 const tbody = document.getElementsByTagName("tbody")[0];
 const headers = document.getElementsByTagName("th");
 for (let i = 0; i < headers.length; ++i)
