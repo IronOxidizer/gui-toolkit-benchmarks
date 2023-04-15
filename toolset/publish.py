@@ -64,8 +64,8 @@ function sortColumn(index) {
 	const oldRows = Array.from(tbody.getElementsByTagName("tr"));
 	tbody.replaceChildren(oldRows[0],
 		...oldRows.slice(1).sort(function (rowA, rowB) {
-			const cellA = rowA.children[index].innerText;
-			const cellB = rowB.children[index].innerText;
+			let cellA = rowA.children[index].innerText;
+			let cellB = rowB.children[index].innerText;
                         if (parseFloat(cellA) != NaN && parseFloat(cellB) != NaN) {
                             cellA = parseFloat(cellA);
                             cellB = parseFloat(cellB);
