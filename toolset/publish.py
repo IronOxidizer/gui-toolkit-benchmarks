@@ -45,6 +45,8 @@ table {
   <tr>
     <th>Toolkit</th>
     <th>Language</th>
+    <th>Mode</th>
+    <th>Platform Library</th>
     <th>Memory Usage (KB)</th>
     <th>Startup Time (ms)</th>
   </tr>
