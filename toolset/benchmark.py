@@ -18,8 +18,6 @@ class Toolkit:
     lang: str
     mode: str = ""
     platform_lib: str = ""
-    memory: int = -1
-    startup: int = -5
 
 # Set current working directory to the repo root
 path_project = Path(os.path.realpath(__file__)).parents[1]
@@ -28,16 +26,17 @@ print("Working directory set to", path_project)
 
 # Get all toolkits
 toolkits = []
+results = []
 for dockerfile in path_project.glob("toolkits/*/*/*.dockerfile"):
     name = dockerfile.stem
     lang = dockerfile.parents[1].name
     toolkit = Toolkit(name, dockerfile, lang)
     
     # Load metadata
-    metadata_file = dockerfile.parent + "/metadata.json"
+    metadata_file = dockerfile.parent / "metadata.json"
     if metadata_file.is_file():
         with open(metadata_file, "r") as f:
-            metadata = json.loads(metadata_file)
+            metadata = json.load(f)
             if "mode" in metadata: toolkit.mode = metadata["mode"]
             if "platform_lib" in metadata: toolkit.platform_lib = metadata["platform_lib"]
         
@@ -65,23 +64,32 @@ for toolkit in toolkits:
     print("Launching toolkit and waiting for image to stabilize")
     container = docker_client.containers.run(
         "gtb/%s" % name,
+        
         name=name,
         volumes={"/tmp/.X11-unix": {"bind": "/tmp/.X11-unix", "mode": "rw"}},
         network_mode="host",
         environment={"DISPLAY": os.getenv("DISPLAY")},
         detach=True)
     
-    toolkit.startup = pixelpeep.await_stable_image(None, 0, 0)
+    startup = pixelpeep.await_stable_image(None, 0, 0)
     print("Recording metrics for toolkit")
-    toolkit.memory = round(container.stats(stream=False)["memory_stats"]["usage"] / KB)
-    print("memory %s, startup %s" % (toolkit.memory, toolkit.startup))
+    memory = round(container.stats(stream=False)["memory_stats"]["usage"] / KB)
+    print("memory %s, startup %s" % (memory, startup))
+    results.append({
+        "name": name,
+        "lang": toolkit.lang,
+        "mode": toolkit.mode,
+        "platform_lib": toolkit.platform_lib,
+        "memory": memory,
+        "startup": startup
+    })
     
     print("Stopping toolkit")
     container.remove(force=True)
     
 print("\nSaving results")
 with open(f"toolset/result.json", "w") as f:
-    json.dump(toolkit.__dict__ for toolkit in toolkits, f)
+    json.dump(results, f)
 
 # Cleanup images after benchmarking
 #for image in docker_client.images.list():
