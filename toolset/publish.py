@@ -52,7 +52,7 @@ table {
 </table> 
 <script>
 "use strict";
-var lastIndex = 2; // Default sort by memory
+var lastIndex = 4; // Default sort by memory
 var sortDirection = 1;
 const tbody = document.getElementsByTagName("tbody")[0];
 const headers = document.getElementsByTagName("th");
@@ -80,6 +80,8 @@ function sortColumn(index) {
 DEVICE_TEMPLATE = """<tr>
 <td>{name}</td>
 <td>{lang}</td>
+<td>{mode}</td>
+<td>{platform_lib}</td>
 <td>{memory}</td>
 <td>{startup}</td>
 </tr>"""

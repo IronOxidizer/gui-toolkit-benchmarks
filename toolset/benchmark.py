@@ -16,6 +16,10 @@ class Toolkit:
     name: str
     dockerfile: Path
     lang: str
+    mode: str = ""
+    platform_lib: str = ""
+    memory: int = -1
+    startup: int = -5
 
 # Set current working directory to the repo root
 path_project = Path(os.path.realpath(__file__)).parents[1]
@@ -24,11 +28,20 @@ print("Working directory set to", path_project)
 
 # Get all toolkits
 toolkits = []
-results = []
 for dockerfile in path_project.glob("toolkits/*/*/*.dockerfile"):
     name = dockerfile.stem
     lang = dockerfile.parents[1].name
-    toolkits.append(Toolkit(name, dockerfile, lang))
+    toolkit = Toolkit(name, dockerfile, lang)
+    
+    # Load metadata
+    metadata_file = dockerfile.parent + "/metadata.json"
+    if metadata_file.is_file():
+        with open(metadata_file, "r") as f:
+            metadata = json.loads(metadata_file)
+            if "mode" in metadata: toolkit.mode = metadata["mode"]
+            if "platform_lib" in metadata: toolkit.platform_lib = metadata["platform_lib"]
+        
+    toolkits.append(toolkit)
 print(f"Found {len(toolkits)} toolkits")
 
 # Setup docker client
@@ -58,19 +71,17 @@ for toolkit in toolkits:
         environment={"DISPLAY": os.getenv("DISPLAY")},
         detach=True)
     
-    startup = pixelpeep.await_stable_image(None, 0, 0)
+    toolkit.startup = pixelpeep.await_stable_image(None, 0, 0)
     print("Recording metrics for toolkit")
-    memory = round(container.stats(stream=False)["memory_stats"]["usage"] / KB)
-    result = {"name": name, "lang": toolkit.lang, "memory": memory, "startup": startup}
-    print(result)
-    results.append(result)
+    toolkit.memory = round(container.stats(stream=False)["memory_stats"]["usage"] / KB)
+    print("memory %s, startup %s" % (toolkit.memory, toolkit.startup))
     
     print("Stopping toolkit")
     container.remove(force=True)
     
 print("\nSaving results")
 with open(f"toolset/result.json", "w") as f:
-    json.dump(results, f)
+    json.dump(toolkit.__dict__ for toolkit in toolkits, f)
 
 # Cleanup images after benchmarking
 #for image in docker_client.images.list():
