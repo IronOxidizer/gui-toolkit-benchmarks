@@ -59,13 +59,14 @@ for toolkit in toolkits:
         rm=False)
 print("Cooling down after builds")
 time.sleep(10)
+os.system("xdotool key Super+d") # Minimize windows, couldn't get this working using vanilla xlib
 
 # Setup pixelpeep
 pixelpeep = cdll.LoadLibrary("./toolset/pixelpeep.so")
 print("Warming up pixelpeep")
 pixelpeep.await_stable_image(None, 0, 0)
 
-# Build docker image for each toolkit
+# Benchmark each toolkit
 for toolkit in toolkits:
     name = toolkit.name
     print("\nBenchmarking", name)
@@ -87,11 +88,11 @@ for toolkit in toolkits:
     print("Recording metrics for toolkit")
     toolkit.startup = round(toolkit.startup / RUNS)
     toolkit.memory = round(toolkit.memory / (KB * RUNS))
-    print(toolkit.__dict__)
-    
     print("Cleaning up container")
     container.remove(force=True)
+    print(toolkit.__dict__)
     
+os.system("xdotool key Super+d") # Restore windows, couldn't get this working using vanilla xlib
 print("\nSaving results")
 with open(f"toolset/result.json", "w") as f:
     json.dump([tk.__dict__ for tk in toolkits], f)
