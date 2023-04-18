@@ -62,18 +62,28 @@ for toolkit in toolkits:
         rm=False)
     
     print("Launching toolkit and waiting for image to stabilize")
-    container = docker_client.containers.run(
+    container = docker_client.containers.create(
         "gtb/%s" % name,
-        
         name=name,
         volumes={"/tmp/.X11-unix": {"bind": "/tmp/.X11-unix", "mode": "rw"}},
         network_mode="host",
         environment={"DISPLAY": os.getenv("DISPLAY")},
         detach=True)
     
-    startup = pixelpeep.await_stable_image(None, 0, 0)
+    runs = 5
+    startup = 0
+    memory = 0
+    
+    for i in range(runs):
+        container.start()
+        startup += pixelpeep.await_stable_image(None, 0, 0)
+        memory += container.stats(stream=False)["memory_stats"]["usage"] 
+        container.stop(timeout=1)
+        time.sleep(1)
+        
     print("Recording metrics for toolkit")
-    memory = round(container.stats(stream=False)["memory_stats"]["usage"] / KB)
+    startup = round(startup / runs)
+    memory = round(memory / (KB * runs))
     print("memory %s, startup %s" % (memory, startup))
     results.append({
         "name": name,
@@ -84,7 +94,7 @@ for toolkit in toolkits:
         "startup": startup
     })
     
-    print("Stopping toolkit")
+    print("Cleaning up container")
     container.remove(force=True)
     
 print("\nSaving results")
