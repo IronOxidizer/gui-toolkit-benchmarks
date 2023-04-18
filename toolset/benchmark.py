@@ -10,30 +10,31 @@ from dataclasses import dataclass
 from pathlib import Path
 
 KB = 1024
+RUNS = 5
 
 @dataclass
 class Toolkit:
     name: str
-    dockerfile: Path
     lang: str
     mode: str = ""
     platform_lib: str = ""
+    memory: int = -1
+    startup: int = -1
 
 # Set current working directory to the repo root
-path_project = Path(os.path.realpath(__file__)).parents[1]
-os.chdir(path_project)
-print("Working directory set to", path_project)
+project_path = Path(os.path.realpath(__file__)).parents[1]
+os.chdir(project_path)
+print("Working directory set to", project_path)
 
 # Get all toolkits
 toolkits = []
-results = []
-for dockerfile in path_project.glob("toolkits/*/*/*.dockerfile"):
-    name = dockerfile.stem
-    lang = dockerfile.parents[1].name
-    toolkit = Toolkit(name, dockerfile, lang)
+for bench in project_path.glob("toolkits/*/*/"):
+    name = bench.name
+    lang = bench.parent.name
+    toolkit = Toolkit(name, lang)
     
     # Load metadata
-    metadata_file = dockerfile.parent / "metadata.json"
+    metadata_file = bench / "metadata.json"
     if metadata_file.is_file():
         with open(metadata_file, "r") as f:
             metadata = json.load(f)
@@ -46,6 +47,19 @@ print(f"Found {len(toolkits)} toolkits")
 # Setup docker client
 docker_client = docker.DockerClient(base_url="unix://var/run/docker.sock")
 
+# Build bench image for each toolkit
+for toolkit in toolkits:
+    name = toolkit.name
+    bench_path = project_path / "toolkits" / toolkit.lang / name
+    print('Building docker image for toolkit "%s"' % name)
+    docker_client.images.build(
+        path=str(bench_path),
+        dockerfile=bench_path / (name + ".dockerfile"),
+        tag="gtb/%s" % name,
+        rm=False)
+print("Cooling down after builds")
+time.sleep(10)
+
 # Setup pixelpeep
 pixelpeep = cdll.LoadLibrary("./toolset/pixelpeep.so")
 print("Warming up pixelpeep")
@@ -54,14 +68,7 @@ pixelpeep.await_stable_image(None, 0, 0)
 # Build docker image for each toolkit
 for toolkit in toolkits:
     name = toolkit.name
-    print('\nBuilding docker image for toolkit "%s"' % name)
-    docker_client.images.build(
-        path=str(toolkit.dockerfile.parent),
-        dockerfile=toolkit.dockerfile,
-        tag="gtb/%s" % name,
-        rm=False)
-    
-    print("Launching toolkit and waiting for image to stabilize")
+    print("\nBenchmarking", name)
     container = docker_client.containers.create(
         "gtb/%s" % name,
         name=name,
@@ -70,36 +77,24 @@ for toolkit in toolkits:
         environment={"DISPLAY": os.getenv("DISPLAY")},
         detach=True)
     
-    runs = 5
-    startup = 0
-    memory = 0
-    
-    for i in range(runs):
+    for i in range(RUNS):
         container.start()
-        startup += pixelpeep.await_stable_image(None, 0, 0)
-        memory += container.stats(stream=False)["memory_stats"]["usage"] 
+        toolkit.startup += pixelpeep.await_stable_image(None, 0, 0)
+        toolkit.memory += container.stats(stream=False)["memory_stats"]["usage"] 
         container.stop(timeout=1)
         time.sleep(1)
         
     print("Recording metrics for toolkit")
-    startup = round(startup / runs)
-    memory = round(memory / (KB * runs))
-    print("memory %s, startup %s" % (memory, startup))
-    results.append({
-        "name": name,
-        "lang": toolkit.lang,
-        "mode": toolkit.mode,
-        "platform_lib": toolkit.platform_lib,
-        "memory": memory,
-        "startup": startup
-    })
+    toolkit.startup = round(toolkit.startup / RUNS)
+    toolkit.memory = round(toolkit.memory / (KB * RUNS))
+    print(toolkit.__dict__)
     
     print("Cleaning up container")
     container.remove(force=True)
     
 print("\nSaving results")
 with open(f"toolset/result.json", "w") as f:
-    json.dump(results, f)
+    json.dump([tk.__dict__ for tk in toolkits], f)
 
 # Cleanup images after benchmarking
 #for image in docker_client.images.list():
