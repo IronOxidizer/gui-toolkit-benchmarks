@@ -3,7 +3,7 @@ from os import mkdir
 import json
 
 OUT_DIR = "_site/"
-RESULTS_PATH = "toolset/result.json"
+RESULTS_PATH = "utils/result.json"
 
 INDEX_TEMPLATE = """<head>
 <style>
