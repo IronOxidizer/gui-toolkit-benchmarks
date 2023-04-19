@@ -77,11 +77,10 @@ for toolkit in toolkits:
 # Create bench image for each toolkit
 for toolkit in toolkits:
     name = toolkit.name
-    bench_path = project_path / "toolkits" / toolkit.lang / name
     print('Building bench image for toolkit "%s"' % name)
+    dockerfile_path = project_path / "toolkits" / toolkit.lang / name / "bench.dockerfile"
     image = docker_client.images.build(
-        path=str(bench_path),
-        dockerfile=bench_path / "bench.dockerfile",
+        fileobj=open(dockerfile_path, "rb"), # fileobj is required to skip a build context
         tag="gtb/%s" % name,
         rm=False)
     toolkit.dependencies_size = round((image[0].attrs["Size"] - base_size) / KB)
@@ -90,7 +89,7 @@ time.sleep(10)
 os.system("xdotool key Super+d") # Minimize windows, couldn't get this working using vanilla xlib
 
 # Setup pixelpeep
-pixelpeep = cdll.LoadLibrary("./toolset/pixelpeep.so")
+pixelpeep = cdll.LoadLibrary("./utils/pixelpeep.so")
 print("Warming up pixelpeep")
 pixelpeep.await_stable_image(None, 0, 0)
 
@@ -124,7 +123,7 @@ for toolkit in toolkits:
     
 os.system("xdotool key Super+d") # Restore windows, couldn't get this working using vanilla xlib
 print("\nSaving results")
-with open(f"toolset/result.json", "w") as f:
+with open(f"utils/result.json", "w") as f:
     json.dump([tk.__dict__ for tk in toolkits], f)
 
 # Cleanup images after benchmarking
