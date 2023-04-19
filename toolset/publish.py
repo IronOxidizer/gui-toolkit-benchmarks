@@ -92,7 +92,7 @@ DEVICE_TEMPLATE = """<tr>
 <td>{memory}</td>
 <td>{startup}</td>
 <td>{executable_size}</td>
-<td>{dependency_size}</td>
+<td>{dependencies_size}</td>
 </tr>"""
 
 with open(RESULTS_PATH, 'r') as f:

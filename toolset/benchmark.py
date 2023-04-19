@@ -21,7 +21,7 @@ class Toolkit:
     memory: int = -1
     startup: int = -1
     executable_size: int = -1
-    dependency_size: int = -1
+    dependencies_size: int = -1
 
 # Set current working directory to the repo root
 project_path = Path(os.path.realpath(__file__)).parents[1]
@@ -84,7 +84,7 @@ for toolkit in toolkits:
         dockerfile=bench_path / "bench.dockerfile",
         tag="gtb/%s" % name,
         rm=False)
-    toolkit.dependency_size = round((image[0].attrs["Size"] - base_size) / KB)
+    toolkit.dependencies_size = round((image[0].attrs["Size"] - base_size) / KB)
 print("Cooling down after builds")
 time.sleep(10)
 os.system("xdotool key Super+d") # Minimize windows, couldn't get this working using vanilla xlib
