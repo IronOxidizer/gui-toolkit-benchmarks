@@ -8,5 +8,5 @@ WORKDIR /egui
 RUN cargo clean
 RUN cargo build --release
 
-CMD ./target/release/egui
+CMD cp ./target/release/egui /executable
 

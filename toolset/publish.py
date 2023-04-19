@@ -52,6 +52,8 @@ table {
     <th>Platform Library</th>
     <th>Memory Usage (KB)</th>
     <th>Startup Time (ms)</th>
+    <th>Executable Size (KB)</th>
+    <th>Dependencies Size (KB)</th>
   </tr>
   %s
 </table> 
@@ -89,6 +91,8 @@ DEVICE_TEMPLATE = """<tr>
 <td>{platform_lib}</td>
 <td>{memory}</td>
 <td>{startup}</td>
+<td>{executable_size}</td>
+<td>{dependency_size}</td>
 </tr>"""
 
 with open(RESULTS_PATH, 'r') as f:

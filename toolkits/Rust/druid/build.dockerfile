@@ -8,5 +8,5 @@ WORKDIR /druid
 RUN cargo clean
 RUN cargo build --release
 
-CMD ./target/release/druid
+CMD cp -f ./target/release/druid /executable
 

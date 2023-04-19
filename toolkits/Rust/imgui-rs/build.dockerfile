@@ -8,5 +8,5 @@ WORKDIR /imgui-rs
 RUN cargo clean
 RUN cargo build --release
 
-CMD ./target/release/imgui-rs
+CMD cp ./target/release/imgui-rs /executable/
 

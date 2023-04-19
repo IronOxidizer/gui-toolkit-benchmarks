@@ -8,5 +8,5 @@ WORKDIR /gtk-rs
 RUN cargo clean
 RUN cargo build --release
 
-CMD ./target/release/gtk-rs
+CMD cp ./target/release/gtk-rs /executable
 

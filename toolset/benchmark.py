@@ -20,6 +20,8 @@ class Toolkit:
     platform_lib: str = ""
     memory: int = -1
     startup: int = -1
+    executable_size: int = -1
+    dependency_size: int = -1
 
 # Set current working directory to the repo root
 project_path = Path(os.path.realpath(__file__)).parents[1]
@@ -46,17 +48,43 @@ print(f"Found {len(toolkits)} toolkits")
 
 # Setup docker client
 docker_client = docker.DockerClient(base_url="unix://var/run/docker.sock")
+base_size = docker_client.images.pull("debian:stable-slim").attrs["Size"]
 
-# Build bench image for each toolkit
 for toolkit in toolkits:
     name = toolkit.name
     bench_path = project_path / "toolkits" / toolkit.lang / name
-    print('Building docker image for toolkit "%s"' % name)
+    build_dockerfile = bench_path / "build.dockerfile"
+    if not build_dockerfile.is_file(): continue
+    print('Building executable for toolkit "%s"' % name)
+    
+    # Create build image
     docker_client.images.build(
         path=str(bench_path),
-        dockerfile=bench_path / (name + ".dockerfile"),
+        dockerfile=build_dockerfile,
+        tag="gtb-build/%s" % name,
+        rm=False)
+    
+    # Create executable
+    executable_path = bench_path / "executable"
+    executable_path.mkdir(exist_ok=True)
+    docker_client.containers.run(
+        "gtb-build/%s" % name,
+        name=name,
+        volumes={str(executable_path): {"bind": "/executable", "mode": "rw"}},
+        remove=True)
+    
+    
+# Create bench image for each toolkit
+for toolkit in toolkits:
+    name = toolkit.name
+    bench_path = project_path / "toolkits" / toolkit.lang / name
+    print('Building bench image for toolkit "%s"' % name)
+    image = docker_client.images.build(
+        path=str(bench_path),
+        dockerfile=bench_path / "bench.dockerfile",
         tag="gtb/%s" % name,
         rm=False)
+    toolkit.dependency_size = round((image[0].attrs["Size"] - base_size) / KB)
 print("Cooling down after builds")
 time.sleep(10)
 os.system("xdotool key Super+d") # Minimize windows, couldn't get this working using vanilla xlib
@@ -69,11 +97,13 @@ pixelpeep.await_stable_image(None, 0, 0)
 # Benchmark each toolkit
 for toolkit in toolkits:
     name = toolkit.name
+    executable_path = project_path / "toolkits" / toolkit.lang / name / "executable"
     print("\nBenchmarking", name)
     container = docker_client.containers.create(
         "gtb/%s" % name,
         name=name,
-        volumes={"/tmp/.X11-unix": {"bind": "/tmp/.X11-unix", "mode": "rw"}},
+        volumes={"/tmp/.X11-unix": {"bind": "/tmp/.X11-unix", "mode": "rw"},
+                 str(executable_path): {"bind": "/executable", "mode": "rw"}},
         network_mode="host",
         environment={"DISPLAY": os.getenv("DISPLAY")},
         detach=True)
@@ -85,10 +115,10 @@ for toolkit in toolkits:
         container.stop(timeout=1)
         time.sleep(1)
         
-    print("Recording metrics for toolkit")
+    print("Recording metrics for toolkit and cleaning up container")
     toolkit.startup = round(toolkit.startup / RUNS)
     toolkit.memory = round(toolkit.memory / (KB * RUNS))
-    print("Cleaning up container")
+    toolkit.executable_size = round(sum(f.stat().st_size for f in executable_path.glob("**/*") if f.is_file()) / KB)
     container.remove(force=True)
     print(toolkit.__dict__)
     
