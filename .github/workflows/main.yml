@@ -31,9 +31,9 @@ jobs:
       - name: Build with custom Python Builder
         run: |
           # pip install pyyaml editdistance
-          python toolset/publish.py
+          python utils/publish.py
       - name: Upload artifact
-        uses: utils/upload-pages-artifact@v1
+        uses: actions/upload-pages-artifact@v1
         
   # Deployment job
   deploy:
