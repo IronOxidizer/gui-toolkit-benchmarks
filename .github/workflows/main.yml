@@ -1,4 +1,4 @@
-name: Deploy Jekyll with GitHub Pages dependencies preinstalled
+name: Custom workflow
 
 on:
   # Runs on pushes targeting the default branch
@@ -33,7 +33,7 @@ jobs:
           # pip install pyyaml editdistance
           python toolset/publish.py
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
+        uses: utils/upload-pages-artifact@v1
         
   # Deployment job
   deploy:
