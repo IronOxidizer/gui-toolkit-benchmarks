@@ -81,3 +81,9 @@ Requirements:
 
 - Host Distro: [Debian](https://www.debian.org/CD/netinst/)
 - Window Manager: [Weston](https://github.com/wayland-project/weston)
+
+## Notes
+
+- To run tests, run `benchmark.py`, pixelpeeper must be compiled
+- To run a single bench, run `benchmark.py single`
+- To setup a testing environment, see utils/setup-host.md

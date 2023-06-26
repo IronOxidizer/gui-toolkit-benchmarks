@@ -5,6 +5,7 @@ import docker
 import json
 import os
 import time
+import sys
 from ctypes import cdll
 from dataclasses import dataclass
 from pathlib import Path
@@ -22,6 +23,15 @@ class Toolkit:
     startup: int = -1
     executable_size: int = -1
     dependencies_size: int = -1
+    
+def print_debug(e):
+    print("Build errored:")
+    for line in e.build_log:
+        if "stream" in line:
+            print(line["stream"].strip())
+    raise
+
+single = any("single" in arg for arg in sys.argv)
 
 # Set current working directory to the repo root
 project_path = Path(os.path.realpath(__file__)).parents[1]
@@ -46,6 +56,12 @@ for bench in project_path.glob("toolkits/*/*/"):
     toolkits.append(toolkit)
 print(f"Found {len(toolkits)} toolkits")
 
+if (single):
+    selected_toolkit = input("\nRunning in single mode\n"
+        + "\n".join([f"[{i}] {toolkit.lang}/{toolkit.name}" for i, toolkit in enumerate(toolkits)])
+        + "\nSelect a toolkit: ")
+    toolkits = [toolkits[int(selected_toolkit)]]
+
 # Setup docker client
 docker_client = docker.DockerClient(base_url="unix://var/run/docker.sock")
 base_size = docker_client.images.pull("debian:stable-slim").attrs["Size"]
@@ -58,11 +74,13 @@ for toolkit in toolkits:
     print('Building executable for toolkit "%s"' % name)
     
     # Create build image
-    docker_client.images.build(
-        path=str(bench_path),
-        dockerfile=build_dockerfile,
-        tag="gtb-build/%s" % name,
-        rm=False)
+    try:
+        docker_client.images.build(
+            path=str(bench_path),
+            dockerfile=build_dockerfile,
+            tag="gtb-build/%s" % name,
+            rm=False)
+    except Exception as e: print_debug(e)
     
     # Create executable
     executable_path = bench_path / "executable"
@@ -79,11 +97,13 @@ for toolkit in toolkits:
     name = toolkit.name
     print('Building bench image for toolkit "%s"' % name)
     dockerfile_path = project_path / "toolkits" / toolkit.lang / name / "bench.dockerfile"
-    image = docker_client.images.build(
-        fileobj=open(dockerfile_path, "rb"), # fileobj is required to skip a build context
-        tag="gtb/%s" % name,
-        rm=False)
-    toolkit.dependencies_size = round((image[0].attrs["Size"] - base_size) / KB)
+    try:
+        image = docker_client.images.build(
+            fileobj=open(dockerfile_path, "rb"), # fileobj is required to skip a build context
+            tag="gtb/%s" % name,
+            rm=False)
+        toolkit.dependencies_size = round((image[0].attrs["Size"] - base_size) / KB)
+    except Exception as e: print_debug(e)
 print("Cooling down after builds")
 time.sleep(10)
 os.system("xdotool key Super+d") # Minimize windows, couldn't get this working using vanilla xlib
@@ -98,17 +118,21 @@ for toolkit in toolkits:
     name = toolkit.name
     executable_path = project_path / "toolkits" / toolkit.lang / name / "executable"
     print("\nBenchmarking", name)
-    container = docker_client.containers.create(
-        "gtb/%s" % name,
-        name=name,
-        volumes={"/tmp/.X11-unix": {"bind": "/tmp/.X11-unix", "mode": "rw"},
-                 str(executable_path): {"bind": "/executable", "mode": "rw"}},
-        network_mode="host",
-        environment={"DISPLAY": os.getenv("DISPLAY")},
-        detach=True)
+    try:
+        container = docker_client.containers.create(
+            "gtb/%s" % name,
+            name=name,
+            volumes={"/tmp/.X11-unix": {"bind": "/tmp/.X11-unix", "mode": "rw"},
+                    str(executable_path): {"bind": "/executable", "mode": "rw"}},
+            network_mode="host",
+            environment={"DISPLAY": os.getenv("DISPLAY")},
+            detach=True)
+    except Exception as e: print_debug(e)
     
     for i in range(RUNS):
-        container.start()
+        try:
+            container.start()
+        except Exception as e: print_debug(e)
         toolkit.startup += pixelpeep.await_stable_image(None, 0, 0)
         toolkit.memory += container.stats(stream=False)["memory_stats"]["usage"] 
         container.stop(timeout=1)
@@ -123,8 +147,10 @@ for toolkit in toolkits:
     
 os.system("xdotool key Super+d") # Restore windows, couldn't get this working using vanilla xlib
 print("\nSaving results")
-with open(f"utils/result.json", "w") as f:
-    json.dump([tk.__dict__ for tk in toolkits], f)
+# Do NOT record results in single mode
+if (not single):
+    with open(f"utils/result.json", "w") as f:
+        json.dump([tk.__dict__ for tk in toolkits], f)
 
 # Cleanup images after benchmarking
 #for image in docker_client.images.list():
@@ -132,8 +158,8 @@ with open(f"utils/result.json", "w") as f:
 #        docker_client.images.remove(image.id, force=True)
 #docker_client.images.prune()
 
-#docker build -t gtb:latest -f druid.dockerfile .
+#docker build -t gtb:latest -f druid.dockerfile -v /home/user/gui-toolkit-benchmarks/toolkits/Rust/druid/executable:/executable . 
 #xhost +
-#docker run --rm -it --network host -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix gtb:latest
+#docker run --rm -it --network host -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v /home/user/gui-toolkit-benchmarks/toolkits/Rust/druid/executable:/executable gtb/druid:latest
 
 #docker system prune -a
