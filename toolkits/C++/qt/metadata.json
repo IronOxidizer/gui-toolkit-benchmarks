@@ -1,4 +1,4 @@
 {
-	"platform_lib": "gtk",
+	"platform_lib": "qt",
 	"mode": "retained"
 }
