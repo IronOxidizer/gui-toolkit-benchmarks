@@ -19,7 +19,7 @@ Heavily inspired by the following projects:
 
 All aspects of performance will be measured. This includes (but is not limited to):
 
-- Size (TODO)
+- Size
 - Startup time
 - Memory usage
 - Rendering speed (TODO)
@@ -33,7 +33,7 @@ Metrics will have different variants to cover all important cases such as cold a
 
 ## Testing methodology
 
-### Size (TODO)
+### Size
 
 The size of the executable with the following variants:
 
@@ -81,6 +81,7 @@ Requirements:
 
 - Host Distro: [Debian](https://www.debian.org/CD/netinst/)
 - Window Manager: [Weston](https://github.com/wayland-project/weston)
+- Might need to use something like waypipe to run in docker
 
 ## Notes
 
