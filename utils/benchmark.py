@@ -91,9 +91,6 @@ for toolkit in toolkits:
         volumes={str(executable_path): {"bind": "/executable", "mode": "rw"}},
         remove=True)
     toolkit.executable_size = round(sum(f.stat().st_size for f in executable_path.glob("**/*") if f.is_file()) / KB)
-    if toolkit.executable_size == -1:
-        src_path = bench_path / "src"
-        toolkit.executable_size = round(sum(f.stat().st_size for f in src_path.glob("**/*") if f.is_file()) / KB)
     
 # Create bench image for each toolkit
 for toolkit in toolkits:
@@ -107,6 +104,9 @@ for toolkit in toolkits:
             dockerfile=dockerfile_path,
             tag="gtb/%s" % name,
             rm=False)
+        if toolkit.executable_size == -1:
+            src_path = bench_path / "src"
+            toolkit.executable_size = round(sum(f.stat().st_size for f in src_path.glob("**/*") if f.is_file()) / KB)
         toolkit.dependencies_size = round((image[0].attrs["Size"] - base_size) / KB) - toolkit.executable_size
     except Exception as e: print_debug(e)
 print("Cooling down after builds")
