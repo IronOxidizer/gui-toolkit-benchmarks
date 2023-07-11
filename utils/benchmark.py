@@ -21,7 +21,7 @@ class Toolkit:
     platform_lib: str = ""
     memory: int = -1
     startup: int = -1
-    executable_size: int = -1
+    executable_size: int = 0
     dependencies_size: int = -1
     
 def print_debug(e):
