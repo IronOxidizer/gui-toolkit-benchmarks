@@ -15,7 +15,7 @@ fn main() {
 
     system.main_loop(move |_, ui| {
         ui.window("Hello world")
-            .size([300.0, 110.0], Condition::FirstUseEver)
+            .size([512.0, 512.0], Condition::FirstUseEver)
             .build(|| {
                 ui.text_wrapped("Hello world!");
                 

@@ -1,7 +1,14 @@
-use iced::{Element, Sandbox, Settings};
+use iced::{Element, Sandbox, Settings, window};
 
 pub fn main() -> iced::Result {
-    Hello::run(Settings::default())
+    let settings = Settings {
+        window: window::Settings {
+            size: (512, 512),
+            ..Default::default()
+        },
+        ..Default::default()
+    };
+    Hello::run(settings)
 }
 
 struct Hello;

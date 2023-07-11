@@ -10,8 +10,8 @@ fn main() {
         let window = ApplicationWindow::builder()
             .application(app)
             .title("First GTK Program")
-            .default_width(350)
-            .default_height(70)
+            .default_width(512)
+            .default_height(512)
             .build();
 
         let button = Button::with_label("Click me!");

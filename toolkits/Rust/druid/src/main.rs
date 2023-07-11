@@ -2,7 +2,8 @@ use druid::widget::{Button, Flex, Label};
 use druid::{AppLauncher, LocalizedString, PlatformError, Widget, WidgetExt, WindowDesc};
 
 fn main() -> Result<(), PlatformError> {
-    let main_window = WindowDesc::new(ui_builder());
+    let main_window = WindowDesc::new(ui_builder())
+        .window_size((512., 512.));
     let data = 0_u32;
     AppLauncher::with_window(main_window)
         .log_to_console()
