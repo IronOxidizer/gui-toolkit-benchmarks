@@ -90,19 +90,22 @@ for toolkit in toolkits:
         name=name,
         volumes={str(executable_path): {"bind": "/executable", "mode": "rw"}},
         remove=True)
-    
+    toolkit.executable_size = round(sum(f.stat().st_size for f in executable_path.glob("**/*") if f.is_file()) / KB)
     
 # Create bench image for each toolkit
 for toolkit in toolkits:
     name = toolkit.name
     print('Building bench image for toolkit "%s"' % name)
-    dockerfile_path = project_path / "toolkits" / toolkit.lang / name / "bench.dockerfile"
+    bench_path = project_path / "toolkits" / toolkit.lang / name
+    dockerfile_path = bench_path / "bench.dockerfile"
     try:
         image = docker_client.images.build(
-            fileobj=open(dockerfile_path, "rb"), # fileobj is required to skip a build context
+            #fileobj=open(dockerfile_path, "rb"), # fileobj is required to skip a build context
+            path = str(bench_path),
+            dockerfile=dockerfile_path,
             tag="gtb/%s" % name,
             rm=False)
-        toolkit.dependencies_size = round((image[0].attrs["Size"] - base_size) / KB)
+        toolkit.dependencies_size = round((image[0].attrs["Size"] - base_size) / KB) - toolkit.executable_size
     except Exception as e: print_debug(e)
 print("Cooling down after builds")
 time.sleep(10)
@@ -123,10 +126,13 @@ for toolkit in toolkits:
             "gtb/%s" % name,
             name=name,
             volumes={"/tmp/.X11-unix": {"bind": "/tmp/.X11-unix", "mode": "rw"},
-                    str(executable_path): {"bind": "/executable", "mode": "rw"}},
+                     "/run/dbus/system_bus_socket": {"bind": "/run/dbus/system_bus_socket", "mode": "rw"},
+                     str(executable_path): {"bind": "/executable", "mode": "rw"}
+                    },
             network_mode="host",
             environment={"DISPLAY": os.getenv("DISPLAY")},
-            detach=True)
+            detach=True,
+            security_opt=["seccomp:unconfined"])
     except Exception as e: print_debug(e)
     
     for i in range(RUNS):
@@ -141,11 +147,10 @@ for toolkit in toolkits:
     print("Recording metrics for toolkit and cleaning up container")
     toolkit.startup = round(toolkit.startup / RUNS)
     toolkit.memory = round(toolkit.memory / (KB * RUNS))
-    toolkit.executable_size = round(sum(f.stat().st_size for f in executable_path.glob("**/*") if f.is_file()) / KB)
     container.remove(force=True)
     print(toolkit.__dict__)
     
-os.system("xdotool key Super+d") # Restore windows, couldn't get this working using vanilla xlib
+os.system("xdotool key Super+d") # Restore windows, this doesn't work for some reason
 print("\nSaving results")
 # Do NOT record results in single mode
 if (not single):
@@ -158,8 +163,10 @@ if (not single):
 #        docker_client.images.remove(image.id, force=True)
 #docker_client.images.prune()
 
-#docker build -t gtb:latest -f druid.dockerfile -v /home/user/gui-toolkit-benchmarks/toolkits/Rust/druid/executable:/executable . 
-#xhost +
-#docker run --rm -it --network host -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v /home/user/gui-toolkit-benchmarks/toolkits/Rust/druid/executable:/executable gtb/druid:latest
+#docker build -t gtb:latest -f build.dockerfile -v /home/user/gui-toolkit-benchmarks/toolkits/Rust/druid/executable:/executable . 
+#docker run --rm -it -v /home/user/gui-toolkit-benchmarks/toolkits/JavaScript/electron/executable:/executable gtb-build/electron:latest
+#xhost local:root
+# docker build --progress=plain -t gtb/electron:latest -f bench.dockerfile --no-cache .
+# docker run --rm -it --network host -e DISPLAY=$DISPLAY -v /tmp/.X11-unix:/tmp/.X11-unix -v /home/user/gui-toolkit-benchmarks/toolkits/JavaScript/electron/executable:/executable gtb/electron:latest
 
 #docker system prune -a
