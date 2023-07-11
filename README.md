@@ -88,3 +88,4 @@ Requirements:
 - To run tests, run `benchmark.py`, pixelpeeper must be compiled
 - To run a single bench, run `benchmark.py single`
 - To setup a testing environment, see utils/setup-host.md
+- To cleanup, run `sudo rm -rf toolkits/*/*/executable && docker system prune --all`

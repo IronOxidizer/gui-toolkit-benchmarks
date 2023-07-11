@@ -21,7 +21,7 @@ class Toolkit:
     platform_lib: str = ""
     memory: int = -1
     startup: int = -1
-    executable_size: int = 0
+    executable_size: int = -1
     dependencies_size: int = -1
     
 def print_debug(e):
@@ -91,6 +91,9 @@ for toolkit in toolkits:
         volumes={str(executable_path): {"bind": "/executable", "mode": "rw"}},
         remove=True)
     toolkit.executable_size = round(sum(f.stat().st_size for f in executable_path.glob("**/*") if f.is_file()) / KB)
+    if toolkit.executable_size == -1:
+        src_path = bench_path / "src"
+        toolkit.executable_size = round(sum(f.stat().st_size for f in src_path.glob("**/*") if f.is_file()) / KB)
     
 # Create bench image for each toolkit
 for toolkit in toolkits:
@@ -100,7 +103,6 @@ for toolkit in toolkits:
     dockerfile_path = bench_path / "bench.dockerfile"
     try:
         image = docker_client.images.build(
-            #fileobj=open(dockerfile_path, "rb"), # fileobj is required to skip a build context
             path = str(bench_path),
             dockerfile=dockerfile_path,
             tag="gtb/%s" % name,
