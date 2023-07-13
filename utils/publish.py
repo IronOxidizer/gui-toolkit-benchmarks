@@ -42,6 +42,10 @@ table {
 <header>
   <a href="https://github.com/IronOxidizer/gui-toolkit-benchmarks">Help improve this open source project on Github</a>. 
   This page was last updated on %s
+  <br><br>
+  <img src="https://img.shields.io/github/stars/IronOxidizer/gui-toolkit-benchmarks"/>
+  <img src="https://img.shields.io/github/actions/workflow/status/IronOxidizer/gui-toolkit-benchmarks/main.yml"/>
+  <img src="https://img.shields.io/github/issues/IronOxidizer/gui-toolkit-benchmarks"/>
 </header>
 <br>
 <table>
