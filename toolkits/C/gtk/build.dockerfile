@@ -5,4 +5,4 @@ RUN apt-get update && apt-get install -qq --no-install-recommends pkg-config lib
 ADD ./ /workdir
 WORKDIR /workdir
 
-CMD gcc $(pkg-config --cflags gtk4) -o /executable/app src/main.c $(pkg-config --libs gtk4) -O3 && strip /executable/app
+CMD gcc -s $(pkg-config --cflags gtk4) -o /executable/app src/main.c $(pkg-config --libs gtk4) -O2
