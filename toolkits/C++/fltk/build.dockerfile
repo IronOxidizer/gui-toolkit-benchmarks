@@ -5,4 +5,4 @@ RUN apt-get update && apt-get install -qq --no-install-recommends build-essentia
 ADD ./ /workdir
 WORKDIR /workdir
 
-CMD g++ -std=c++17 $(fltk-config --cflags) -o /executable/app src/main.cpp $(fltk-config --libs --ldflags)
+CMD g++ -s -std=c++17 $(fltk-config --cflags) -o /executable/app src/main.cpp $(fltk-config --libs --ldflags) -O2

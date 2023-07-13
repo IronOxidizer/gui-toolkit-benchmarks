@@ -6,3 +6,6 @@ edition = "2021"
 
 [dependencies]
 fltk = { version = "1.4.7" }
+
+[profile.release]
+strip = true

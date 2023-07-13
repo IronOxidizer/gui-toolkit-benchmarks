@@ -6,3 +6,6 @@ edition = "2021"
 
 [dependencies]
 iced = { version = "0.8.0", features = ["glow"] }
+
+[profile.release]
+strip = true

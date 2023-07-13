@@ -7,3 +7,6 @@ edition = "2021"
 [dependencies]
 eframe = { version = "0.22.0" }
 tracing-subscriber = "0.3"
+
+[profile.release]
+strip = true
