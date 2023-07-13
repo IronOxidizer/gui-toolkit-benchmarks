@@ -1,21 +1,10 @@
 # gui-toolkit-benchmarks
-A suite of benchmarks for measuring the performance of various system GUI toolkits
 
-Check it out here: https://ironoxidizer.github.io/gui-toolkit-benchmarks/
+![](https://img.shields.io/github/stars/IronOxidizer/gui-toolkit-benchmarks) ![](https://img.shields.io/github/actions/workflow/status/IronOxidizer/gui-toolkit-benchmarks/main.yml) ![](https://img.shields.io/github/issues/IronOxidizer/gui-toolkit-benchmarks)
+
+A suite of benchmarks for measuring the performance of various system GUI toolkits https://ironoxidizer.github.io/gui-toolkit-benchmarks
 
 This project was created with the hopes of creating competition between various GUI toolkit projects in the same way that the [TechEmpower](https://github.com/TechEmpower/FrameworkBenchmarks) and [krausest](https://github.com/krausest/js-framework-benchmark) benchmarks [raised the bar](https://en.wikipedia.org/wiki/Wirth%27s_law).
-
-Heavily inspired by the following projects:
-
-- https://github.com/TechEmpower/FrameworkBenchmarks
-- https://github.com/krausest/js-framework-benchmark
-- https://tolszak-dev.blogspot.com/2013/02/simple-qml-vs-efl-comparison.html
-- https://www.grapecity.com/blogs/flexgrid-performance-compare-desktop-platforms
-- https://digitalcommons.wpi.edu/cgi/viewcontent.cgi?article=2796&context=mqp-all
-- https://eugenkiss.github.io/7guis/more
-- https://szibele.com/memory-footprint-of-gui-toolkits/
-- https://web.wpi.edu/Pubs/E-project/Available/E-project-042518-124639/unrestricted/Developing_a_Benchmark_for_Qt_on_Embedded_Platforms.pdf
-- https://lukaskalbertodt.github.io/2023/02/03/tauri-iced-egui-performance-comparison.html
 
 All aspects of performance will be measured. This includes (but is not limited to):
 
@@ -89,3 +78,17 @@ Requirements:
 - To run a single bench, run `benchmark.py single`
 - To setup a testing environment, see utils/setup-host.md
 - To cleanup, run `sudo rm -rf toolkits/*/*/executable && docker system prune --all`
+
+## Acknowledgements
+
+This project was heavily inspired by the following projects:
+
+- https://github.com/TechEmpower/FrameworkBenchmarks
+- https://github.com/krausest/js-framework-benchmark
+- https://tolszak-dev.blogspot.com/2013/02/simple-qml-vs-efl-comparison.html
+- https://www.grapecity.com/blogs/flexgrid-performance-compare-desktop-platforms
+- https://digitalcommons.wpi.edu/cgi/viewcontent.cgi?article=2796&context=mqp-all
+- https://eugenkiss.github.io/7guis/more
+- https://szibele.com/memory-footprint-of-gui-toolkits/
+- https://web.wpi.edu/Pubs/E-project/Available/E-project-042518-124639/unrestricted/Developing_a_Benchmark_for_Qt_on_Embedded_Platforms.pdf
+- https://lukaskalbertodt.github.io/2023/02/03/tauri-iced-egui-performance-comparison.html
