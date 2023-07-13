@@ -8,5 +8,5 @@ WORKDIR /workdir
 RUN cargo clean
 RUN cargo build --release
 
-CMD cp ./target/release/app /executable/
+CMD cp ./target/release/app /executable/ && strip /executable/app
 

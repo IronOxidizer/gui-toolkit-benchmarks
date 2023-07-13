@@ -6,4 +6,4 @@ ADD ./ /workdir
 WORKDIR /workdir
 
 # CMD g++ std=c++11 fPIC $(pkg-config --cflags Qt5Widgets) -o /executable/app src/main.cpp $(pkg-config --libs Qt5Widgets)
-CMD qmake app.pro && make
+CMD qmake app.pro && make && strip /executable/app
