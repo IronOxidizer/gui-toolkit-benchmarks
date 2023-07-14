@@ -4,7 +4,7 @@
 #include <cstdio>
 
 int main() {
-  Fl_Window win(0, 0, 512, 512, "FLTK C++ app");
+  Fl_Double_Window win(0, 0, 512, 512, "FLTK C++ app");
   Fl_Button btn(0, 0, 512, 512, "Click me!");
   btn.callback([](auto){ fputs("Clicked!", stderr); });
   win.end();
