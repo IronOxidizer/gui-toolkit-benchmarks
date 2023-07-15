@@ -1,0 +1,19 @@
+[package]
+name = "app"
+version = "0.1.0"
+default-run = "app"
+authors = []
+edition = "2021"
+rust-version = "1.60"
+
+[build-dependencies]
+tauri-build = { version = "1.4.0" }
+
+[dependencies]
+tauri = { version = "1.4.0" }
+
+[features]
+custom-protocol = [ "tauri/custom-protocol" ]
+
+[profile.release]
+strip = true

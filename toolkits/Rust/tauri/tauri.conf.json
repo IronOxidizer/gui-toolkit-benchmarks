@@ -1,0 +1,17 @@
+{
+  "build": {
+    "devPath": "ui",
+    "distDir": "ui"
+  },
+  "tauri": {
+    "windows": [
+      {
+        "fullscreen": false,
+        "resizable": true,
+        "title": "Tauri App",
+        "width": 512,
+        "height": 512
+      }
+    ]
+  }
+}
