@@ -1,11 +1,17 @@
-#![allow(non_snake_case)]
 use dioxus::prelude::*;
+use dioxus_desktop as dd;
 
 fn main() {
-    dioxus_desktop::launch(App);
+    dd::launch_cfg(
+        app,
+        dd::Config::default().with_window(
+            dd::WindowBuilder::new()
+                .with_inner_size(dd::PhysicalSize::new(512, 512)),
+        ),
+    );
 }
 
-fn App(cx: Scope) -> Element {
+fn app(cx: Scope) -> Element {
     cx.render(rsx! {
         button {
             onclick: |_| {
