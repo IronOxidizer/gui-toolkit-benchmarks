@@ -1,6 +1,6 @@
 FROM debian:stable-slim
 
-RUN apt-get update && apt-get install -qq --no-install-recommends build-essential cmake pkg-config libfontconfig1-dev libx11-6 libxcursor1 libxrandr-dev libxi6 libx11-xcb-dev libegl-dev
+RUN apt-get update && apt-get install -qq --no-install-recommends libfontconfig1 libx11-6 libxcursor1 libxrandr2 libxi6 libx11-xcb1 libegl1
 
 
 CMD /executable/app
