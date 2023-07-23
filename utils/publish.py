@@ -60,8 +60,8 @@ table {
     <th>Language</th>
     <th>Mode</th>
     <th>Platform Library</th>
-    <th>Memory Usage (KB)</th>
     <th>Startup Time (ms)</th>
+    <th>Memory Usage (KB)</th>
     <th>Executable Size (KB)</th>
     <th>Dependencies Size (KB)</th>
   </tr>
