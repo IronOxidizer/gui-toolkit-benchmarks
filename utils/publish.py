@@ -5,7 +5,9 @@ import json
 OUT_DIR = "_site/"
 RESULTS_PATH = "utils/result.json"
 
-INDEX_TEMPLATE = """<head>
+INDEX_TEMPLATE = """<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>GUI ToolKit Benchmarks</title>
 <style>
 body {
     font-family: roboto,helvetica,arial,sans-serif;
@@ -25,6 +27,9 @@ a {
 th {
     cursor: pointer;
     padding: 0 10px
+}
+th:first-of-type {
+    cursor: default
 }
 td {
     text-align: right;
@@ -50,6 +55,7 @@ table {
 <br>
 <table>
   <tr>
+    <th>#</th>
     <th>Toolkit</th>
     <th>Language</th>
     <th>Mode</th>
@@ -63,15 +69,19 @@ table {
 </table> 
 <script>
 "use strict";
-var lastIndex = 4; // Default sort by memory
-var sortDirection = 1;
 const tbody = document.getElementsByTagName("tbody")[0];
 const headers = document.getElementsByTagName("th");
-for (let i = 0; i < headers.length; ++i)
+var lastIndex = 6; // Default sort by memory
+var sortDirection = 1;
+headers[lastIndex].style = "color: #fdb735"
+for (let i = 1; i < headers.length; ++i)
 	headers[i].addEventListener('click', function() {sortColumn(i);});
+
 
 function sortColumn(index) {
 	sortDirection = index === lastIndex ? sortDirection * -1 : 1;
+    headers[lastIndex].style = "color: #ddd"
+    headers[index].style = "color: #fdb735"
 	lastIndex = index;
 	const oldRows = Array.from(tbody.getElementsByTagName("tr"));
 	tbody.replaceChildren(oldRows[0],
@@ -85,16 +95,18 @@ function sortColumn(index) {
 			return ((cellA > cellB) - (cellB > cellA)) * sortDirection;
 		}
 	))
+    Array.from(tbody.getElementsByTagName("tr")).slice(1).map((row, i) => row.children[0].innerText = i+1);
 }
 </script>"""
 
 DEVICE_TEMPLATE = """<tr>
+<td>{i}</td>
 <td>{name}</td>
 <td>{lang}</td>
 <td>{mode}</td>
 <td>{platform_lib}</td>
-<td>{memory}</td>
 <td>{startup}</td>
+<td>{memory}</td>
 <td>{executable_size}</td>
 <td>{dependencies_size}</td>
 </tr>"""
@@ -103,7 +115,7 @@ with open(RESULTS_PATH, 'r') as f:
   results = json.load(f)
 results.sort(key=lambda toolkit: toolkit["memory"]) # default sort by lowest memory
 
-html_rows = "".join(DEVICE_TEMPLATE.format(**result) for result in results)
+html_rows = "".join(DEVICE_TEMPLATE.format(i=i, **result) for i, result in enumerate(results))
 html_index = INDEX_TEMPLATE % (date.today().strftime("%B %d, %Y"), html_rows)
 mkdir(OUT_DIR)
 open(OUT_DIR + "index.html", "w").write(html_index)
