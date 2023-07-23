@@ -1,8 +1,11 @@
-# gui-toolkit-benchmarks
-
-![](https://img.shields.io/github/stars/IronOxidizer/gui-toolkit-benchmarks) ![](https://img.shields.io/github/actions/workflow/status/IronOxidizer/gui-toolkit-benchmarks/main.yml) ![](https://img.shields.io/github/issues/IronOxidizer/gui-toolkit-benchmarks)
-
-A suite of benchmarks for measuring the performance of various system GUI toolkits https://ironoxidizer.github.io/gui-toolkit-benchmarks
+<h1 align="center">Gui ToolKit Benchmarks</h1>
+<p align="center">
+<img src="https://img.shields.io/github/stars/IronOxidizer/gui-toolkit-benchmarks">
+<img src="https://img.shields.io/github/actions/workflow/status/IronOxidizer/gui-toolkit-benchmarks/main.yml">
+<img src="https://img.shields.io/github/issues/IronOxidizer/gui-toolkit-benchmarks">
+</p>
+<p align="center">A suite of benchmarks for measuring the performance of various system GUI toolkits</p>
+<p  align="center"><a href="https://ironoxidizer.github.io/gui-toolkit-benchmarks">ironoxidizer.github.io/gui-toolkit-benchmarks</a></p>
 
 This project was created with the hopes of creating competition between various GUI toolkit projects in the same way that the [TechEmpower](https://github.com/TechEmpower/FrameworkBenchmarks) and [krausest](https://github.com/krausest/js-framework-benchmark) benchmarks [raised the bar](https://en.wikipedia.org/wiki/Wirth%27s_law).
 
