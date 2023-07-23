@@ -132,6 +132,7 @@ for toolkit in toolkits:
                      str(executable_path): {"bind": "/executable", "mode": "rw"}
                     },
             network_mode="host",
+            ipc_mode="host",
             environment={"DISPLAY": os.getenv("DISPLAY")},
             detach=True,
             security_opt=["seccomp:unconfined"])
