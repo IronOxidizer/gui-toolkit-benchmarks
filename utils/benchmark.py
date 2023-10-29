@@ -23,6 +23,7 @@ class Toolkit:
     startup: int = -1
     executable_size: int = -1
     dependencies_size: int = -1
+    website: str = ""
     
 def print_debug(e):
     print("Build errored:")
@@ -52,6 +53,7 @@ for bench in project_path.glob("toolkits/*/*/"):
             metadata = json.load(f)
             if "mode" in metadata: toolkit.mode = metadata["mode"]
             if "platform_lib" in metadata: toolkit.platform_lib = metadata["platform_lib"]
+            if "website" in metadata: toolkit.website = metadata["website"]
         
     toolkits.append(toolkit)
 print(f"Found {len(toolkits)} toolkits")
