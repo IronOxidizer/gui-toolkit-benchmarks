@@ -1,4 +1,5 @@
 {
 	"platform_lib": "winit",
-	"mode": "retained"
+	"mode": "retained",
+	"website": "https://iced.rs/"
 }

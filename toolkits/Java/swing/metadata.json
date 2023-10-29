@@ -1,4 +1,5 @@
 {
 	"platform_lib": "swing",
-	"mode": "retained"
+	"mode": "retained",
+	"website": "https://docs.oracle.com/javase%2F7%2Fdocs%2Fapi%2F%2F/javax/swing/package-summary.html"
 }

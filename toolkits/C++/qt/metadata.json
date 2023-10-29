@@ -1,4 +1,5 @@
 {
 	"platform_lib": "qt",
-	"mode": "retained"
+	"mode": "retained",
+	"website": "https://doc.qt.io/"
 }

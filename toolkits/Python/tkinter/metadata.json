@@ -1,4 +1,5 @@
 {
 	"platform_lib": "tk",
-	"mode": "retained"
+	"mode": "retained",
+	"website": "https://docs.python.org/3/library/tkinter.html"
 }

@@ -1,4 +1,5 @@
 {
 	"platform_lib": "winit",
-	"mode": "immediate"
+	"mode": "immediate",
+	"website": "https://github.com/imgui-rs/imgui-rs"
 }

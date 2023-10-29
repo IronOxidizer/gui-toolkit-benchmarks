@@ -5,9 +5,22 @@ import json
 OUT_DIR = "_site/"
 RESULTS_PATH = "utils/result.json"
 
-INDEX_TEMPLATE = """<html><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+INDEX_TEMPLATE = """<!DOCTYPE html><html lang=en><head>
+<meta http-equiv=content-type content="text/html;charset=UTF-8">
+
+<!--SEO tags -->
 <title>GUI ToolKit Benchmarks</title>
+<meta name="description" content="Benchmarks for measuring the performance of GUI toolkits"/>
+<meta name="keywords" content="benchmark, performance, gui, toolkit">
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="GUI ToolKit Benchmarks"/>
+<meta name="twitter:description" content="Benchmarks for measuring the performance of GUI toolkits"/>
+<meta property="og:title" content="GUI ToolKit Benchmarks"/>
+<meta property="og:description" content="Benchmarks for measuring the performance of GUI toolkits"/>
+<meta property="og:url" content="https://ironoxidizer.github.io/gui-toolkit-benchmarks"/>
+<meta property="og:type" content="website"/>
+<link rel="canonical" href="https://ironoxidizer.github.io/gui-toolkit-benchmarks/"/>
+
 <style>
 body {
     font-family: roboto,helvetica,arial,sans-serif;
@@ -101,7 +114,7 @@ function sortColumn(index) {
 
 DEVICE_TEMPLATE = """<tr>
 <td>{i}</td>
-<td>{name}</td>
+<td><a href="{website}">{name}</a></td>
 <td>{lang}</td>
 <td>{mode}</td>
 <td>{platform_lib}</td>

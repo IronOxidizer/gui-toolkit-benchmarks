@@ -1,4 +1,5 @@
 {
 	"platform_lib": "fltk",
-	"mode": "retained"
+	"mode": "retained",
+	"website": "https://github.com/fltk-rs/fltk-rs"
 }
